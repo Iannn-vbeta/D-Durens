@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
 
 class UserController extends Controller
 {
@@ -30,7 +31,7 @@ class UserController extends Controller
             'id_role'  => 2
         ]);
 
-        return redirect()->route('akunUser')->with('success', 'User berhasil ditambahkan.');
+        return redirect()->route('admin.akunUser')->with('success', 'User berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -39,7 +40,7 @@ class UserController extends Controller
 
         $request->validate([
             'username' => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email,' . $user->id,
+            'email'    => "required|email|unique:users,email,{$user->id}",
         ]);
 
         $user->update([
@@ -47,7 +48,7 @@ class UserController extends Controller
             'email'    => $request->email,
         ]);
 
-        return redirect()->route('akunUser')->with('success', 'User berhasil diperbarui.');
+        return redirect()->route('admin.akunUser')->with('success', 'User berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -55,6 +56,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('akunUser')->with('success', 'User berhasil dihapus.');
+        return redirect('admin.akunUser')->with('success', 'User berhasil dihapus.');
     }
 }

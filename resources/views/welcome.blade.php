@@ -31,18 +31,6 @@
                                 class="rounded-md px-4 py-2 text-sm font-medium bg-green-600 text-white hover:bg-green-700">
                                 Masuk Sekarang
                             </a>
-
-                            {{-- @if (Route::has('register'))
-                            <a
-                                href="{{ route('register') }}"
-                                class="rounded-md px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 
-                                       hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF2D20] 
-                                       dark:text-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 
-                                       dark:focus:ring-white"
-                            >
-                                Register
-                            </a>
-                        @endif --}}
                         @endauth
                     </div>
                 </nav>
