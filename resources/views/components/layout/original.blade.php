@@ -47,7 +47,7 @@
                 <h4 class="text-lg font-bold mb-4">Admin Panel</h4>
                 <nav>
                     <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Dashboard</a>
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Users</a>
+                    <a href="{{ route('admin.akunUser') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Users</a>
                     <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Settings</a>
                     <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Reports</a>
                 </nav>

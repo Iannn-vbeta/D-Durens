@@ -6,6 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Role;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\ArtikelWisata;
+use App\Models\PemesananTiket;
+use App\Models\Inventaris;
 
 class User extends Authenticatable
 {
@@ -21,7 +27,9 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'id_role',
     ];
+    
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,4 +53,27 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class, 'id_role');
+    }
+
+    public function artikelWisata(): HasMany
+    {
+        return $this->hasMany(ArtikelWisata::class, 'user_id');
+    }
+
+    public function pemesananTiket(): HasMany
+    {
+        return $this->hasMany(PemesananTiket::class, 'user_id');
+    }
+
+    public function inventaris(): HasMany
+    {
+        return $this->hasMany(Inventaris::class, 'user_id');
+    }
+
+
+
 }

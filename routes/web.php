@@ -1,19 +1,25 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ScanController;
 
+use App\Http\Controllers\ScanController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserDashboardController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check()) {
+        return Auth::user()->role_id == 1
+            ? redirect('/admin/dashboard')
+            : redirect('/dashboard');
+    }
+
+    return view('welcome'); // atau redirect ke /login
 });
-
-
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -31,8 +37,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
 
-
-
+Route::get('/akun-user', [UserController::class, 'index'])->name('admin.akunUser');
+Route::post('/akun-user', [UserController::class, 'store'])->name('akunUser.store');
+Route::put('/akun-user/{id}', [UserController::class, 'update'])->name('akunUser.update');
+Route::delete('/akun-user/{id}', [UserController::class, 'destroy'])->name('akunUser.destroy');
 
 require __DIR__.'/auth.php';
 require 'webSwap.php';

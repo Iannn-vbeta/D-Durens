@@ -10,7 +10,7 @@ class UserDashboardController extends \Illuminate\Routing\Controller
 {
     $this->middleware(function ($request, $next) {
         if (Auth::check() && Auth::user()->id_role == 1) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route(   'admin.dashboard');
         }
         return $next($request);
     });
