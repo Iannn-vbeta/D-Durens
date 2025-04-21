@@ -9,6 +9,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\ScreeningController;
+
 
 
 Route::get('/', function () {
@@ -41,6 +43,9 @@ Route::get('/akun-user', [UserController::class, 'index'])->name('admin.akunUser
 Route::post('/akun-user', [UserController::class, 'store'])->name('akunUser.store');
 Route::put('/akun-user/{id}', [UserController::class, 'update'])->name('akunUser.update');
 Route::delete('/akun-user/{id}', [UserController::class, 'destroy'])->name('akunUser.destroy');
+
+Route::get('/screening', [ScreeningController::class, 'index']);
+Route::post('/screening', [ScreeningController::class, 'upload']);
 
 require __DIR__.'/auth.php';
 require 'webSwap.php';
