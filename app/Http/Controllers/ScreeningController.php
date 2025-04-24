@@ -13,7 +13,7 @@ class ScreeningController extends Controller
         return view('screen');
     }
 
-    public function upload(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'leaf_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
@@ -24,7 +24,7 @@ class ScreeningController extends Controller
             'image',
             file_get_contents($image->getRealPath()),
             $image->getClientOriginalName()
-        )->post('http://127.0.0.1:5000/predict'); // Ganti dengan IP Flask kamu
+        )->post('http://127.0.0.1:5000/predict');
 
         if ($response->successful()) {
             $filename = uniqid() . ".jpg";
