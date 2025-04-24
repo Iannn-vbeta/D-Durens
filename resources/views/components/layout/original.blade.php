@@ -51,7 +51,7 @@
                         Users</a>
                     <a href="{{ route('admin.akunAdmin') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Akun
                         Admin</a>
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Reports</a>
+                    <a href="{{ route('admin.artikel') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Artikel</a>
                 </nav>
             </div>
 

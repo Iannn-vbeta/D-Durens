@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScreeningController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\ArtikelWisataController;
 
 
 Route::get('/', function () {
@@ -66,5 +67,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/screening', [ScreeningController::class, 'index'])->name('screening');
 Route::post('/screening', [ScreeningController::class, 'store'])->name('screening.store');
 
+Route::middleware(['auth', 'verified'])->group(function () {
+        Route::get('/admin/artikel', [ArtikelWisataController::class, 'index'])->name('admin.artikel');
+        Route::post('/admin/artikel', [ArtikelWisataController::class, 'store'])->name('artikel.store');
+        Route::put('/admin/artikel/{id}', [ArtikelWisataController::class, 'update'])->name('artikel.update');
+        Route::delete('/admin/artikel/{id}', [ArtikelWisataController::class, 'destroy'])->name('artikel.destroy');
+
+    
+});
 require __DIR__.'/auth.php';
 require 'webSwap.php';

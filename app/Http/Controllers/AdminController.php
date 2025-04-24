@@ -56,6 +56,6 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect('admin.akunAdmin')->with('success', 'Admin berhasil dihapus.');
+        return redirect()->route('admin.akunAdmin')->with('success','Admin berhasil dihapus.');
     }
 }
