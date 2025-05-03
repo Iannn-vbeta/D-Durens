@@ -48,7 +48,7 @@
     <div id="addUserModal" class="fixed inset-0 bg-black bg-opacity-30 items-center justify-center hidden z-50">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
             <h3 class="text-lg font-bold mb-4">Tambah User Baru</h3>
-            <form action="{{ route('akunUser.store') }}" method="POST" class="space-y-4"
+            <form action="{{ route('akunAdmin.store') }}" method="POST" class="space-y-4"
                 onsubmit="return validatePasswords()">
                 @csrf
                 <input type="text" name="username" required placeholder="Username"

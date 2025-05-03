@@ -26,11 +26,29 @@ class ScreeningController extends Controller
             $image->getClientOriginalName()
         )->post('http://127.0.0.1:5000/predict');
 
-        if ($response->successful()) {
-            $filename = uniqid() . ".jpg";
-            Storage::disk('public')->put("hasil_deteksi/$filename", $response->body());
-            return back()->with(['success' => 'Deteksi selesai!', 'filename' => $filename]);
+    if ($response->successful()) {
+        $json = $response->json();
+        $filename = $json['filename'];
+        $penyakit = implode(', ', $json['penyakit']);
+        $perawatan = implode(', ', $json['pengobatan']);
+
+        // Ambil file gambar dari server Flask
+        // $image_response = Http::get("http://127.0.0.1:5000/uploads/$filename");
+        $image_response = Http::get("http://127.0.0.1:5000/uploads/$filename");
+
+
+        if ($image_response->successful()) {
+            Storage::disk('public')->put("hasil_deteksi/$filename", $image_response->body());
         }
+
+        return back()->with([
+            'success' => 'Deteksi selesai!',
+            'filename' => $filename,
+            'hasil_screening' => $penyakit,
+            'perawatan' => $perawatan
+        ]);
+    }
+
 
         return back()->with('error', 'Terjadi kesalahan saat mendeteksi gambar.');
     }

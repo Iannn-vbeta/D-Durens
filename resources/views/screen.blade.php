@@ -106,12 +106,12 @@
                     <!-- Hasil dan Rekomendasi -->
                     <div class="mt-4 text-left w-full">
                         <p class="font-semibold">Hasil :</p>
-                        <p class="text-gray-400">
-                            {{ session('hasil_screening') ?? 'Hasil Screening' }}
+                        <p class="text-gray-600 font-semibold">
+                            {{ session('hasil_screening') ?? 'Belum ada hasil deteksi.' }}
                         </p>
                         <p class="font-semibold mt-2">Rekomendasi pengobatan:</p>
                         <p class="text-gray-400">
-                            {{ session('rekomendasi_perawatan') ?? 'Deskripsi Perawatan' }}
+                            {{ session('perawatan') ?? 'Deskripsi Perawatan' }}
                         </p>
                     </div>
 

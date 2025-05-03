@@ -57,7 +57,7 @@ Route::middleware(['auth', 'verified',])->group(function () {
     Route::delete('/akun-user/{id}', [UserController::class, 'destroy'])->name('akunUser.destroy');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/akun-admin', [AdminController::class, 'index'])->name('admin.akunAdmin');
     Route::post('/akun-admin', [AdminController::class, 'store'])->name('akunAdmin.store');
     Route::put('/akun-admin/{id}', [AdminController::class, 'update'])->name('akunAdmin.update');
