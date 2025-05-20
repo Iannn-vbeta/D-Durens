@@ -1,4 +1,5 @@
-<x-layout.original>
+@extends('layouts.original')
+@section('main')
     <div class="container mx-auto px-4 py-6">
         <h1 class="text-2xl font-bold mb-6">Daftar Artikel Wisata</h1>
 
@@ -51,8 +52,7 @@
         {{-- Modal Section --}}
         <div id="modals">
             {{-- Create Modal --}}
-            <div id="createModal"
-                class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div id="createModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                 <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative">
                     <button id="closeCreateModalButton"
                         class="absolute top-2 right-2 text-gray-500 hover:text-black text-xl">&times;</button>
@@ -86,8 +86,7 @@
                 <div id="editModal-{{ $artikel->article_id }}"
                     class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative">
-                        <button
-                            class="closeEditModalButton absolute top-2 right-2 text-gray-500 hover:text-black text-xl"
+                        <button class="closeEditModalButton absolute top-2 right-2 text-gray-500 hover:text-black text-xl"
                             data-id="{{ $artikel->article_id }}">&times;</button>
                         <h2 class="text-xl font-semibold mb-4">Edit Artikel</h2>
                         <form action="{{ route('artikel.update', $artikel->article_id) }}" method="POST"
@@ -96,8 +95,7 @@
                             @method('PUT')
                             <div class="mb-4">
                                 <label class="block font-medium text-sm mb-1">Judul</label>
-                                <input type="text" name="title"
-                                    class="w-full border border-gray-300 rounded px-3 py-2"
+                                <input type="text" name="title" class="w-full border border-gray-300 rounded px-3 py-2"
                                     value="{{ $artikel->title }}" required>
                             </div>
                             <div class="mb-4">
@@ -155,4 +153,4 @@
             });
         });
     </script>
-</x-layout.original>
+@endsection

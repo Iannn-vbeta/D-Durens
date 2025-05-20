@@ -1,2 +1,1 @@
-<x-layout.original>
-</x-layout.original>
+@extends('layouts.original')

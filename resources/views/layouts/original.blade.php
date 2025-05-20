@@ -52,6 +52,8 @@
                     <a href="{{ route('admin.akunAdmin') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Akun
                         Admin</a>
                     <a href="{{ route('admin.artikel') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Artikel</a>
+                    <a href="{{ route('admin.inventaris') }}"
+                        class="block py-2 px-4 rounded hover:bg-gray-700">Inventaris</a>
                 </nav>
             </div>
 
@@ -59,10 +61,11 @@
             <div class="flex-1 flex flex-col">
                 <!-- Main Content -->
                 <div class="p-6 overflow-y-auto flex-1">
-                    {{ $slot }}
+                    @yield('main')
                 </div>
             </div>
         </div>
+
     </body>
 
 </html>
