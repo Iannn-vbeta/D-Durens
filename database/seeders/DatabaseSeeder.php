@@ -66,6 +66,7 @@ class ETicketingSeeder extends Seeder
     public function run(): void
     {
         ETicketing::create([
+            'kuota' => 100,
             'ticket_name' => 'Tiket Masuk Pantai',
             'price' => 25000,
             'deskripsi' => 'Tiket masuk untuk satu orang dewasa.'
@@ -78,13 +79,25 @@ class PemesananTiketSeeder extends Seeder
     public function run(): void
     {
         PemesananTiket::create([
-            'total_ticket' => 2,
-            'status' => 'Berhasil',
-            'transaction_date' => Carbon::now(),
-            'transaction_status' => 'Lunas',
-            'ordering_date' => Carbon::now()->subDays(1),
-            'user_id' => 1,
-            'ticket_id' => 1
+        'total_ticket' => 2,
+        'transaction_date' => Carbon::now(),
+        'ordering_date' => Carbon::now()->subDays(1),
+        'user_id' => 1,
+        'ticket_id' => 1,
+        'status_pemesanan_id' => 1  // ✅ BENAR
+    ]);
+
+    }
+}
+
+class StatusPemesananSeeder extends Seeder
+{
+    public function run(): void
+    {
+        DB::table('status_pemesanan')->insert([
+            ['status_name' => 'Berhasil'],
+            ['status_name' => 'Gagal'],
+            ['status_name' => 'Pending'],
         ]);
     }
 }
@@ -150,8 +163,10 @@ class DatabaseSeeder extends Seeder
             KelayakanSeeder::class,
             ETicketingSeeder::class,
             ArtikelWisataSeeder::class,
+            StatusPemesananSeeder::class,
             PemesananTiketSeeder::class,
-            InventarisSeeder::class,
+            InventarisSeeder::class
+
         ]);
     }
 }

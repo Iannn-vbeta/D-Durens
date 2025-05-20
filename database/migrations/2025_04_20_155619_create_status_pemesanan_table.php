@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('e_ticketing', function (Blueprint $table) {
-            $table->id('ticket_id');
-            $table->integer('kuota');
-            $table->string('ticket_name');
-            $table->integer('price');
-            $table->text('deskripsi');
-        });
-        
+        Schema::create('status_pemesanan', function (Blueprint $table) {
+    $table->id('status_id');
+    $table->string('status_name', 4000);
+    $table->timestamps();
+    });
+
     }
 
     /**
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('e_ticketing');
+        Schema::dropIfExists('status_pemesanan');
     }
 };
