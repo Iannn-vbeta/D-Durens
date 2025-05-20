@@ -6,11 +6,12 @@ use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScreeningController;
-use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\ArtikelWisataController;
+use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\AdminDashboardController;
 
 
 Route::get('/', function () {
@@ -71,8 +72,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/admin/artikel', [ArtikelWisataController::class, 'store'])->name('artikel.store');
         Route::put('/admin/artikel/{id}', [ArtikelWisataController::class, 'update'])->name('artikel.update');
         Route::delete('/admin/artikel/{id}', [ArtikelWisataController::class, 'destroy'])->name('artikel.destroy');
-
-    
 });
+
+// Route::middleware(['auth', 'verified'])->group(function () {
+//     Route::get('/admin/inventaris', [InventarisController::class, 'index'])->name('admin.inventaris');
+// });
+
 require __DIR__.'/auth.php';
 require 'webSwap.php';

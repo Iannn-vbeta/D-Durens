@@ -15,7 +15,7 @@ class InventarisController extends Controller
         $inventaris = Inventaris::with(['kategoriBarang', 'ketersediaan', 'kelayakan'])->get();
         
         // Kirim data ke view
-        return view('inventaris', compact('inventaris'));
+        return view('admin.inventaris', compact('inventaris'));
     }
 
     /**
