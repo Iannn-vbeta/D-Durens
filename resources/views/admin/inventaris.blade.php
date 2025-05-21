@@ -9,19 +9,24 @@
             </div>
         @endif
 
-        <button id="openCreateModalButton" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mb-6">
+        <!-- Tombol Tambah Inventaris -->
+        <button onclick="openModal('createModal')"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mb-6 inline-block">
             Tambah Inventaris
         </button>
 
+        <!-- Tabel Inventaris -->
         <div class="overflow-x-auto bg-white rounded shadow">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-100 text-left">
                     <tr>
                         <th class="px-4 py-2">#</th>
-                        <th class="px-4 py-2">Nama Barang</th>
-                        <th class="px-4 py-2">Kategori</th>
+                        <th class="px-4 py-2">Nama</th>
                         <th class="px-4 py-2">Jumlah</th>
-                        <th class="px-4 py-2">Lokasi</th>
+                        <th class="px-4 py-2">Kategori</th>
+                        <th class="px-4 py-2">Ketersediaan</th>
+                        <th class="px-4 py-2">Kelayakan</th>
+                        <th class="px-4 py-2">Deskripsi</th>
                         <th class="px-4 py-2">Aksi</th>
                     </tr>
                 </thead>
@@ -29,14 +34,19 @@
                     @foreach ($inventaris as $index => $item)
                         <tr>
                             <td class="px-4 py-2">{{ $index + 1 }}</td>
-                            <td class="px-4 py-2">{{ $item->nama_barang }}</td>
-                            <td class="px-4 py-2">{{ $item->kategori->nama_kategori ?? '-' }}</td>
-                            <td class="px-4 py-2">{{ $item->jumlah }}</td>
-                            <td class="px-4 py-2">{{ $item->lokasi->nama_lokasi ?? '-' }}</td>
+                            <td class="px-4 py-2">{{ $item->item_name }}</td>
+                            <td class="px-4 py-2">{{ $item->amount }}</td>
+                            <td class="px-4 py-2">{{ $item->kategoriBarang->category_name ?? '-' }}</td>
+                            <td class="px-4 py-2">{{ $item->ketersediaan->status ?? '-' }}</td>
+                            <td class="px-4 py-2">{{ $item->kelayakan->status ?? '-' }}</td>
+                            <td class="px-4 py-2">{{ $item->deskripsi ?? '-' }}</td>
                             <td class="px-4 py-2 flex gap-2">
-                                <button class="editModalButton text-yellow-600 hover:underline"
-                                    data-id="{{ $item->id }}">Edit</button>
-                                <form action="{{ route('inventaris.destroy', $item->id) }}" method="POST"
+                                <!-- Tombol Edit -->
+                                <button
+                                    onclick="openEditModal({{ $item->id }}, '{{ addslashes($item->item_name) }}', {{ $item->amount }}, {{ $item->kategoriBarang->id ?? 'null' }}, {{ $item->ketersediaan->id ?? 'null' }}, {{ $item->kelayakan->id ?? 'null' }})"
+                                    class="text-yellow-600 hover:underline">Edit</button>
+                                <!-- Tombol Hapus -->
+                                <form action="#" method="POST"
                                     onsubmit="return confirm('Yakin ingin menghapus inventaris ini?');">
                                     @csrf
                                     @method('DELETE')
@@ -48,141 +58,133 @@
                 </tbody>
             </table>
         </div>
+    </div>
 
-        {{-- Modal Section --}}
-        <div id="modals">
-            {{-- Create Modal --}}
-            <div id="createModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative">
-                    <button id="closeCreateModalButton"
-                        class="absolute top-2 right-2 text-gray-500 hover:text-black text-xl">&times;</button>
-                    <h2 class="text-xl font-semibold mb-4">Tambah Inventaris Baru</h2>
-                    <form action="{{ route('inventaris.store') }}" method="POST">
-                        @csrf
-                        <div class="mb-4">
-                            <label class="block font-medium text-sm mb-1">Nama Barang</label>
-                            <input type="text" name="nama_barang" class="w-full border border-gray-300 rounded px-3 py-2"
-                                required>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block font-medium text-sm mb-1">Kategori</label>
-                            <select name="kategori_id" class="w-full border border-gray-300 rounded px-3 py-2" required>
-                                <option value="">Pilih Kategori</option>
-                                @foreach ($kategoris as $kategori)
-                                    <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block font-medium text-sm mb-1">Jumlah</label>
-                            <input type="number" name="jumlah" class="w-full border border-gray-300 rounded px-3 py-2"
-                                required>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block font-medium text-sm mb-1">Lokasi</label>
-                            <select name="lokasi_id" class="w-full border border-gray-300 rounded px-3 py-2" required>
-                                <option value="">Pilih Lokasi</option>
-                                @foreach ($lokasis as $lokasi)
-                                    <option value="{{ $lokasi->id }}">{{ $lokasi->nama_lokasi }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="flex justify-end">
-                            <button type="submit"
-                                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Simpan</button>
-                        </div>
-                    </form>
+    <!-- Modal Tambah Inventaris -->
+    <div id="createModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded shadow w-full max-w-md">
+            <h2 class="text-xl font-bold mb-4">Tambah Inventaris</h2>
+            <form action="#" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label class="block mb-1">Nama Barang</label>
+                    <input type="text" name="item_name" class="w-full border rounded px-3 py-2" required>
                 </div>
-            </div>
-
-            {{-- Edit Modals --}}
-            @foreach ($inventaris as $item)
-                <div id="editModal-{{ $item->id }}"
-                    class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg relative">
-                        <button class="closeEditModalButton absolute top-2 right-2 text-gray-500 hover:text-black text-xl"
-                            data-id="{{ $item->id }}">&times;</button>
-                        <h2 class="text-xl font-semibold mb-4">Edit Inventaris</h2>
-                        <form action="{{ route('inventaris.update', $item->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <div class="mb-4">
-                                <label class="block font-medium text-sm mb-1">Nama Barang</label>
-                                <input type="text" name="nama_barang"
-                                    class="w-full border border-gray-300 rounded px-3 py-2"
-                                    value="{{ $item->nama_barang }}" required>
-                            </div>
-                            <div class="mb-4">
-                                <label class="block font-medium text-sm mb-1">Kategori</label>
-                                <select name="kategori_id" class="w-full border border-gray-300 rounded px-3 py-2" required>
-                                    @foreach ($kategoris as $kategori)
-                                        <option value="{{ $kategori->id }}"
-                                            {{ $item->kategori_id == $kategori->id ? 'selected' : '' }}>
-                                            {{ $kategori->nama_kategori }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-4">
-                                <label class="block font-medium text-sm mb-1">Jumlah</label>
-                                <input type="number" name="jumlah" class="w-full border border-gray-300 rounded px-3 py-2"
-                                    value="{{ $item->jumlah }}" required>
-                            </div>
-                            <div class="mb-4">
-                                <label class="block font-medium text-sm mb-1">Lokasi</label>
-                                <select name="lokasi_id" class="w-full border border-gray-300 rounded px-3 py-2" required>
-                                    @foreach ($lokasis as $lokasi)
-                                        <option value="{{ $lokasi->id }}"
-                                            {{ $item->lokasi_id == $lokasi->id ? 'selected' : '' }}>
-                                            {{ $lokasi->nama_lokasi }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="flex justify-end">
-                                <button type="submit"
-                                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Simpan</button>
-                            </div>
-                        </form>
-                    </div>
+                <div class="mb-3">
+                    <label class="block mb-1">Jumlah</label>
+                    <input type="number" name="amount" class="w-full border rounded px-3 py-2" required>
                 </div>
-            @endforeach
+                <div class="mb-3">
+                    <label class="block mb-1">Kategori</label>
+                    <select name="kategori_barang_id" class="w-full border rounded px-3 py-2" required>
+                        <option value="">Pilih Kategori</option>
+                        @foreach ($kategori as $kat)
+                            <option value="{{ $kat->id }}">{{ $kat->category_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="block mb-1">Ketersediaan</label>
+                    <select name="ketersediaan_id" class="w-full border rounded px-3 py-2" required>
+                        <option value="">Pilih Status</option>
+                        @foreach ($ketersediaan as $stat)
+                            <option value="{{ $stat->id }}">{{ $stat->status }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="block mb-1">Kelayakan</label>
+                    <select name="kelayakan_id" class="w-full border rounded px-3 py-2" required>
+                        <option value="">Pilih Status</option>
+                        @foreach ($kelayakan as $kel)
+                            <option value="{{ $kel->id }}">{{ $kel->status }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="block mb-1">Deskripsi</label>
+                    <textarea name="deskripsi" class="w-full border rounded px-3 py-2" rows="4"></textarea>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('createModal')"
+                        class="px-4 py-2 bg-gray-300 rounded">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Simpan</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    {{-- JavaScript untuk toggle modal --}}
+    <!-- Modal Edit Inventaris -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded shadow w-full max-w-md">
+            <h2 class="text-xl font-bold mb-4">Edit Inventaris</h2>
+            <form id="editForm" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="mb-3">
+                    <label class="block mb-1">Nama Barang</label>
+                    <input type="text" name="item_name" id="edit_item_name" class="w-full border rounded px-3 py-2"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label class="block mb-1">Jumlah</label>
+                    <input type="number" name="amount" id="edit_amount" class="w-full border rounded px-3 py-2" required>
+                </div>
+                <div class="mb-3">
+                    <label class="block mb-1">Kategori</label>
+                    <select name="kategori_barang_id" id="edit_kategori_barang_id" class="w-full border rounded px-3 py-2"
+                        required>
+                        <option value="">Pilih Kategori</option>
+                        @foreach ($kategori as $kat)
+                            <option value="{{ $kat->id }}">{{ $kat->category_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="block mb-1">Ketersediaan</label>
+                    <select name="ketersediaan_id" id="edit_ketersediaan_id" class="w-full border rounded px-3 py-2"
+                        required>
+                        <option value="">Pilih Status</option>
+                        @foreach ($ketersediaan as $stat)
+                            <option value="{{ $stat->id }}">{{ $stat->status }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="block mb-1">Kelayakan</label>
+                    <select name="kelayakan_id" id="edit_kelayakan_id" class="w-full border rounded px-3 py-2" required>
+                        <option value="">Pilih Status</option>
+                        @foreach ($kelayakan as $kel)
+                            <option value="{{ $kel->id }}">{{ $kel->status }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('editModal')"
+                        class="px-4 py-2 bg-gray-300 rounded">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-yellow-600 text-white rounded">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const createModal = document.getElementById('createModal');
-            const openCreateModalButton = document.getElementById('openCreateModalButton');
-            const closeCreateModalButton = document.getElementById('closeCreateModalButton');
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
 
-            openCreateModalButton.addEventListener('click', () => {
-                createModal.classList.remove('hidden');
-            });
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
 
-            closeCreateModalButton.addEventListener('click', () => {
-                createModal.classList.add('hidden');
-            });
-
-            const editModalButtons = document.querySelectorAll('.editModalButton');
-            const closeEditModalButtons = document.querySelectorAll('.closeEditModalButton');
-
-            editModalButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const modalId = button.getAttribute('data-id');
-                    const modal = document.getElementById(`editModal-${modalId}`);
-                    modal.classList.remove('hidden');
-                });
-            });
-
-            closeEditModalButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const modalId = button.getAttribute('data-id');
-                    const modal = document.getElementById(`editModal-${modalId}`);
-                    modal.classList.add('hidden');
-                });
-            });
-        });
+        function openEditModal(id, name, amount, kategori, ketersediaan, kelayakan) {
+            openModal('editModal');
+            document.getElementById('edit_item_name').value = name;
+            document.getElementById('edit_amount').value = amount;
+            document.getElementById('edit_kategori_barang_id').value = kategori;
+            document.getElementById('edit_ketersediaan_id').value = ketersediaan;
+            document.getElementById('edit_kelayakan_id').value = kelayakan;
+            document.getElementById('editForm').action = '/inventaris/' + id;
+        }
     </script>
 @endsection

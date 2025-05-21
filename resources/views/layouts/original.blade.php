@@ -11,7 +11,10 @@
 
     <body class="h-screen flex flex-col">
         <!-- Topbar -->
-        <div class="bg-gray-100 border-b border-gray-300 p-4 flex justify-end">
+        <div class="bg-gray-100 border-b border-gray-300 p-2 flex items-center justify-between px-24">
+            <div>
+                <img src="{{ asset('img/logo2.png') }}" alt="" class="w-24 md:w-32">
+            </div>
             <div class="relative">
                 <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 focus:outline-none"
                     id="userMenuButton">
@@ -43,17 +46,17 @@
 
         <div class="flex flex-1">
             <!-- Sidebar -->
-            <div class="w-64 bg-gray-800 text-white p-4">
+            <div class="w-64 bg-green-600 text-white p-4">
                 <h4 class="text-lg font-bold mb-4">Admin Panel</h4>
-                <nav>
+                <nav class="pt-4">
                     <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Dashboard</a>
                     <a href="{{ route('admin.akunUser') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Akun
                         Users</a>
                     <a href="{{ route('admin.akunAdmin') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Akun
                         Admin</a>
                     <a href="{{ route('admin.artikel') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Artikel</a>
-                    {{-- <a href="{{ route('admin.inventaris') }}"
-                        class="block py-2 px-4 rounded hover:bg-gray-700">Inventaris</a> --}}
+                    <a href="{{ route('admin.inventaris') }}"
+                        class="block py-2 px-4 rounded hover:bg-gray-700">Inventaris</a>
                 </nav>
             </div>
 

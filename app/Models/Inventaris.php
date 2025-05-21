@@ -21,7 +21,7 @@ class Inventaris extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function kategori(): BelongsTo
+    public function kategoriBarang(): BelongsTo
     {
         return $this->belongsTo(KategoriBarang::class, 'category_id');
     }

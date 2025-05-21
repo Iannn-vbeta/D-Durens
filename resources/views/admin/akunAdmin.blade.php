@@ -1,5 +1,10 @@
 @extends('layouts.original')
 @section('main')
+    @if (session('success'))
+        <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="max-w-7xl mx-auto py-6">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold">Daftar Akun User</h2>

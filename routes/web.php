@@ -74,9 +74,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/admin/artikel/{id}', [ArtikelWisataController::class, 'destroy'])->name('artikel.destroy');
 });
 
-// Route::middleware(['auth', 'verified'])->group(function () {
-//     Route::get('/admin/inventaris', [InventarisController::class, 'index'])->name('admin.inventaris');
-// });
+Route::middleware(['auth', 'verified'])->group(function () {
+        Route::get('/admin/inventaris', [InventarisController::class, 'index'])->name('admin.inventaris');
+        Route::get('/admin/inventaris/create', [InventarisController::class, 'create'])->name('inventaris.create');
+        Route::post('/admin/inventaris', [InventarisController::class, 'store'])->name('inventaris.store');
+        Route::get('/admin/inventaris/{id}', [InventarisController::class, 'show'])->name('inventaris.show');
+});
 
 require __DIR__.'/auth.php';
 require 'webSwap.php';
