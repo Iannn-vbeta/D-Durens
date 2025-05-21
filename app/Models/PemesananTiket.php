@@ -25,4 +25,9 @@ class PemesananTiket extends Model
     {
         return $this->belongsTo(ETicketing::class, 'ticket_id');
     }
+
+    public function statusPemesanan(): BelongsTo
+    {
+        return $this->belongsTo(StatusPemesanan::class, 'status_id');
+    }
 }
