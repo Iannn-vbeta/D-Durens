@@ -84,6 +84,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('admin/pemesanantiket', [PemesananTicketControler::class, 'index'])->name('admin.pemesanan');
+    Route::post('/tiket/kuota/{ticket}/tambah', [PemesananTicketControler::class, 'tambahKuota'])->name('tiket.tambahKuota');
+    Route::post('/tiket/kuota/{ticket}/kurangi', [PemesananTicketControler::class, 'kurangiKuota'])->name('tiket.kurangiKuota');
+    Route::put('/pemesanan/update-status/{id}', [PemesananTicketControler::class, 'updateStatus'])->name('tiket.editStatus');
 });
 
 require __DIR__.'/auth.php';
