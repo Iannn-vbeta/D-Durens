@@ -12,8 +12,12 @@ class PemesananTiket extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'total_ticket', 'status', 'transaction_date', 'transaction_status', 
-        'ordering_date', 'user_id', 'ticket_id'
+        'total_ticket',
+        'transaction_date',
+        'ordering_date',
+        'user_id',
+        'ticket_id',
+        'status_id'
     ];
 
     public function user(): BelongsTo
@@ -26,8 +30,8 @@ class PemesananTiket extends Model
         return $this->belongsTo(ETicketing::class, 'ticket_id');
     }
 
-    public function statusPemesanan(): BelongsTo
+    public function status(): BelongsTo
     {
-        return $this->belongsTo(StatusPemesanan::class, 'status_id');
+        return $this->belongsTo(StatusPemesanan::class, 'status_pemesanan_id');
     }
 }

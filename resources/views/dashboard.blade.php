@@ -18,8 +18,8 @@
             <nav class="bg-white shadow-md px-6">
                 <div class="container mx-auto py-4 flex justify-between items-center">
                     <!-- Logo -->
-                    <div class="flex items-center ml-16">
-                        <a href="#" class="text-xl font-bold text-gray-800">Logo</a>
+                    <div class="col-auto">
+                        <img src="{{ asset('img/logo2.png') }}" alt="" class="w-24 md:w-32">
                     </div>
 
                     <!-- Hamburger Menu -->

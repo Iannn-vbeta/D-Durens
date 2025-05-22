@@ -13,8 +13,8 @@
             <nav class="bg-white shadow-md px-6">
                 <div class="container mx-auto py-4 flex justify-between items-center">
                     <!-- Logo -->
-                    <div class="flex items-center ml-16"> <!-- Tambahkan margin kiri lebih besar -->
-                        <a href="#" class="text-xl font-bold text-gray-800">Logo</a>
+                    <div class="col-auto">
+                        <img src="{{ asset('img/logo2.png') }}" alt="" class="w-24 md:w-32">
                     </div>
 
                     <!-- Hamburger Menu -->
@@ -57,7 +57,7 @@
                                 {{ Auth::user()->username ?? 'Guest' }}
                             </button>
                             <div class="absolute hidden group-hover:block bg-white shadow-md mt-2 rounded-md">
-                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
+                                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profile</a>
                                 <a href="{{ route('logout') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">

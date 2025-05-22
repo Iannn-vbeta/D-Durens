@@ -57,6 +57,8 @@
                     <a href="{{ route('admin.artikel') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Artikel</a>
                     <a href="{{ route('admin.inventaris') }}"
                         class="block py-2 px-4 rounded hover:bg-gray-700">Inventaris</a>
+                    <a href="{{ route('admin.pemesanan') }}"
+                        class="block py-2 px-4 rounded hover:bg-gray-700">E-Ticketing</a>
                 </nav>
             </div>
 

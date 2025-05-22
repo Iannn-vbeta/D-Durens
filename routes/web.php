@@ -12,6 +12,7 @@ use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\ArtikelWisataController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\PemesananTicketControler;
 
 
 Route::get('/', function () {
@@ -79,6 +80,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/admin/inventaris/create', [InventarisController::class, 'create'])->name('inventaris.create');
         Route::post('/admin/inventaris', [InventarisController::class, 'store'])->name('inventaris.store');
         Route::get('/admin/inventaris/{id}', [InventarisController::class, 'show'])->name('inventaris.show');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('admin/pemesanantiket', [PemesananTicketControler::class, 'index'])->name('admin.pemesanan');
 });
 
 require __DIR__.'/auth.php';
