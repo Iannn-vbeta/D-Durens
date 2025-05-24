@@ -38,7 +38,7 @@
                         <a href="#home" class="text-gray-800 hover:text-blue-500">Home</a>
                         <a href="#aboutus" class="text-gray-800 hover:text-blue-500">About Us</a>
                         <a href="#artikel" class="text-gray-800 hover:text-blue-500">Artikel</a>
-                        <a href="#" class="text-gray-800 hover:text-blue-500">Pricing</a>
+                        <a href="{{ route('pemesanan.create') }}" class="text-gray-800 hover:text-blue-500">Pricing</a>
 
                         <!-- Dropdown Screening -->
                         <div class="relative group z-[2]">

@@ -87,6 +87,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/tiket/kuota/{ticket}/tambah', [PemesananTicketControler::class, 'tambahKuota'])->name('tiket.tambahKuota');
     Route::post('/tiket/kuota/{ticket}/kurangi', [PemesananTicketControler::class, 'kurangiKuota'])->name('tiket.kurangiKuota');
     Route::put('/pemesanan/update-status/{id}', [PemesananTicketControler::class, 'updateStatus'])->name('tiket.editStatus');
+    Route::get('/pemesanan/create', [PemesananTicketControler::class, 'create'])->name('pemesanan.create');
+    Route::post('/pemesanan/store', [PemesananTicketControler::class, 'store'])->name('pemesanan.store');
+    Route::get('/pemesanan/success', [PemesananTicketControler::class, 'success'])->name('pemesanan.success');
 });
 
 require __DIR__.'/auth.php';

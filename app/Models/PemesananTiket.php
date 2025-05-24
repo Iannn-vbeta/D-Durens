@@ -17,7 +17,7 @@ class PemesananTiket extends Model
         'ordering_date',
         'user_id',
         'ticket_id',
-        'status_id'
+        'status_pemesanan_id'
     ];
 
     public function user(): BelongsTo
