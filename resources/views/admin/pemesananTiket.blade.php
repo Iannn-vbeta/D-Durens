@@ -10,7 +10,11 @@
                 Lihat Kuota Tiket
         </button>
     </div>
-
+@if (session('success'))
+    <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
+        {{ session('success') }}
+    </div>
+@endif
     <div class="overflow-x-auto bg-white shadow rounded-lg">
         <table class="min-w-full text-sm text-left border border-gray-200">
             <thead class="bg-gray-100 text-gray-700 uppercase text-xs">

@@ -87,37 +87,39 @@
                             data-name="{{ $ticket->ticket_name }}"
                             data-desc="{{ $ticket->deskripsi }}"
                             data-price="{{ $ticket->price }}"
+                            data-kuota="{{ $ticket->kuota }}"
                         >
                             <h2 class="text-xl font-bold text-indigo-600 mb-2">{{ $ticket->ticket_name }}</h2>
                             <p class="text-gray-700 mb-4">{{ $ticket->deskripsi }}</p>
                             <p class="text-lg font-semibold text-green-600">Rp{{ number_format($ticket->price, 0, ',', '.') }}</p>
+                            <p class="text-sm text-red-600 mt-2">Sisa kuota: {{ $ticket->kuota }}</p>
                         </div>
                     @endforeach
                 </div>
 
-                <!-- Modal -->
                 <div id="modal"
                     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
                     style="display: none;"
                 >
                     <div class="bg-white rounded-lg p-8 max-w-md w-full">
                         <h2 id="modal-ticket-name" class="text-2xl font-bold mb-4 text-indigo-600"></h2>
-
-                        <!-- Tampilkan ticket id, user id, dan ordering date -->
+                        <input type="hidden" id="modal-ticket-kuota" value="">
                         <p><strong>Username:</strong> <span id="modal-user-id-display">{{ Auth::user()->username ?? '-' }}</span></p>
                         <p><strong>Ordering Date:</strong> <span id="modal-ordering-date-display">{{ now()->toDateString() }}</span></p>
                         <p><strong>Deskripsi:</strong>
+                        <p class="text-sm text-red-600 mb-4">Sisa kuota: <span id="modal-kuota-display"></span></p>
                         <p id="modal-ticket-desc" class="mb-2"></p>
                         <p class="font-semibold text-green-600 mb-4">Harga: Rp<span id="modal-ticket-price"></span></p>
 
                         <form method="POST" action="{{ route('pemesanan.store') }}">
                             @csrf
+
                             <input type="hidden" name="ticket_id" id="modal-ticket-id" value="">
                             <input type="hidden" name="user_id" value="{{ Auth::id() }}">
                             <input type="hidden" name="ordering_date" value="{{ now()->toDateString() }}">
                             <input type="hidden" name="status_pemesanan_id" value="3">
 
-                            <label for="total_ticket" class="block text-sm font-medium text-gray-700">Jumlah Tiket</label>
+                            <label for="total_ticket" class="block text-s   m font-medium text-gray-700">Jumlah Tiket</label>
                             <input type="number" name="total_ticket" id="total_ticket" min="1" value="1"
                                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2 mb-4" required>
 
@@ -132,26 +134,28 @@
         </main>
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
-                    // Ambil semua tiket
                     const ticketCards = document.querySelectorAll('.ticket-card');
                     const modal = document.getElementById('modal');
                     const modalTicketName = document.getElementById('modal-ticket-name');
                     const modalTicketDesc = document.getElementById('modal-ticket-desc');
                     const modalTicketPrice = document.getElementById('modal-ticket-price');
                     const modalTicketIdInput = document.getElementById('modal-ticket-id');
+                    const modalTicketKuotaInput = document.getElementById('modal-ticket-kuota');
+                    const modalKuotaDisplay = document.getElementById('modal-kuota-display');
+                    const totalTicketInput = document.getElementById('total_ticket');
                     const modalCloseBtn = document.getElementById('modal-close');
 
-                    // Fungsi untuk buka modal dan isi data
                     function openModal(ticket) {
                         modalTicketName.textContent = ticket.name;
                         modalTicketDesc.textContent = ticket.desc;
                         modalTicketPrice.textContent = Number(ticket.price).toLocaleString('id-ID');
                         modalTicketIdInput.value = ticket.id;
-
+                        modalTicketKuotaInput.value = ticket.kuota;
+                        modalKuotaDisplay.textContent = ticket.kuota;
+                        totalTicketInput.value = 1;
                         modal.style.display = 'flex';
                     }
 
-                    // Pasang event klik di tiap tiket
                     ticketCards.forEach(card => {
                         card.addEventListener('click', function () {
                             const ticket = {
@@ -159,24 +163,47 @@
                                 name: this.dataset.name,
                                 desc: this.dataset.desc,
                                 price: this.dataset.price,
+                                kuota: this.dataset.kuota
                             };
                             openModal(ticket);
                         });
                     });
 
-                    // Event close modal
                     modalCloseBtn.addEventListener('click', function () {
                         modal.style.display = 'none';
                     });
 
-                    // Tutup modal jika klik di luar konten modal
                     modal.addEventListener('click', function (e) {
                         if (e.target === modal) {
                             modal.style.display = 'none';
                         }
                     });
+
+                    // Tambahkan validasi jumlah tiket saat user mengubah input
+                    totalTicketInput.addEventListener('input', function () {
+                        const kuota = parseInt(modalTicketKuotaInput.value);
+                        const jumlah = parseInt(totalTicketInput.value);
+                        if (jumlah > kuota) {
+                            alert('Jumlah tiket yang diminta melebihi kuota tersedia (' + kuota + ').');
+                            totalTicketInput.value = kuota; // atur nilai ke maksimum kuota
+                        } else if (jumlah < 1) {
+                            alert('Jumlah tiket minimal 1.');
+                            totalTicketInput.value = 1; // minimal 1 tiket
+                        }
+                    });
+
+                    // Validasi jumlah tiket sebelum submit
+                    document.querySelector('form').addEventListener('submit', function(e) {
+                        const kuota = parseInt(modalTicketKuotaInput.value);
+                        const jumlah = parseInt(totalTicketInput.value);
+                        if (jumlah > kuota) {
+                            e.preventDefault();
+                            alert('Jumlah tiket yang diminta melebihi kuota tersedia (' + kuota + ').');
+                        }
+                    });
                 });
-            </script>
+                </script>
+
 
     </body>
 
