@@ -49,7 +49,7 @@ class PemesananTicketControler extends Controller
         $pemesanan->status_pemesanan_id = $request->status_id;
         $pemesanan->save();
 
-        return back()->with('success', 'Status pemesanan berhasil diperbarui.');
+        return redirect()->route('admin.pemesanan')->with('success', 'Status pemesanan berhasil diperbarui.');
     }
 
     public function create()
@@ -103,6 +103,7 @@ class PemesananTicketControler extends Controller
             \DB::commit();
 
             return redirect()->back()->with('success', 'Pemesanan tiket berhasil!');
+
         } catch (\Exception $e) {
             // Rollback kalau ada error
             \DB::rollback();
