@@ -50,15 +50,17 @@
                 <h4 class="text-lg font-bold mb-4">Admin Panel</h4>
                 <nav class="pt-4">
                     <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">Dashboard</a>
-                    <a href="{{ route('admin.akunUser') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Akun
-                        Users</a>
                     <a href="{{ route('admin.akunAdmin') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Akun
                         Admin</a>
+                    <a href="{{ route('admin.akunUser') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Akun
+                        Users</a>
                     <a href="{{ route('admin.artikel') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Artikel</a>
-                    <a href="{{ route('admin.inventaris') }}"
-                        class="block py-2 px-4 rounded hover:bg-gray-700">Inventaris</a>
+                    {{-- <a href="{{ route('inventaris.index') }}"
+                        class="block py-2 px-4 rounded hover:bg-gray-700">Inventaris</a> --}}
                     <a href="{{ route('admin.pemesanan') }}"
                         class="block py-2 px-4 rounded hover:bg-gray-700">E-Ticketing</a>
+                    <a href="{{ route('admin.screeningPenyakit') }}"
+                        class="block py-2 px-4 rounded hover:bg-gray-700">Screening Penyakit</a>
                 </nav>
             </div>
 

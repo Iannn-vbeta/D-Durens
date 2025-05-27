@@ -13,6 +13,10 @@ class ScreeningController extends Controller
         return view('screen');
     }
 
+    public function indexAdmin(){
+        return view('admin.screeningPenyakit');
+    }
+
     public function store(Request $request)
     {
         $request->validate([

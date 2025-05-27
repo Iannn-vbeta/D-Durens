@@ -52,10 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified',])->group(function () {
-    Route::get('/akun-user', [UserController::class, 'index'])->name('admin.akunUser');
-    Route::post('/akun-user', [UserController::class, 'store'])->name('akunUser.store');
-    Route::put('/akun-user/{id}', [UserController::class, 'update'])->name('akunUser.update');
-    Route::delete('/akun-user/{id}', [UserController::class, 'destroy'])->name('akunUser.destroy');
+    
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -67,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/screening', [ScreeningController::class, 'index'])->name('screening');
 Route::post('/screening', [ScreeningController::class, 'store'])->name('screening.store');
+Route::get('/admin/screening', [ScreeningController::class, 'indexAdmin'])->name('admin.screeningPenyakit');
+Route::post('/admin/screening', [ScreeningController::class, 'store'])->name('admin.screeningPenyakit.store');
 
 Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/admin/artikel', [ArtikelWisataController::class, 'index'])->name('admin.artikel');
@@ -76,10 +75,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-        Route::get('/admin/inventaris', [InventarisController::class, 'index'])->name('admin.inventaris');
-        Route::get('/admin/inventaris/create', [InventarisController::class, 'create'])->name('inventaris.create');
-        Route::post('/admin/inventaris', [InventarisController::class, 'store'])->name('inventaris.store');
-        Route::get('/admin/inventaris/{id}', [InventarisController::class, 'show'])->name('inventaris.show');
+    Route::get('/inventaris', [InventarisController::class, 'index'])->name('inventaris.index');
+    Route::post('/inventaris', [InventarisController::class, 'store'])->name('inventaris.store');
+    Route::put('/inventaris/{inventaris}', [InventarisController::class, 'update'])->name('inventaris.update');
+    Route::delete('/inventaris/{inventaris}', [InventarisController::class, 'destroy'])->name('inventaris.destroy');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
