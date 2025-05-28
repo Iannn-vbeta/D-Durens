@@ -55,8 +55,8 @@
                     <a href="{{ route('admin.akunUser') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Akun
                         Users</a>
                     <a href="{{ route('admin.artikel') }}" class="block py-2 px-4 rounded hover:bg-gray-700">Artikel</a>
-                    {{-- <a href="{{ route('inventaris.index') }}"
-                        class="block py-2 px-4 rounded hover:bg-gray-700">Inventaris</a> --}}
+                    <a href="{{ route('inventaris.index') }}"
+                        class="block py-2 px-4 rounded hover:bg-gray-700">Inventaris</a>
                     <a href="{{ route('admin.pemesanan') }}"
                         class="block py-2 px-4 rounded hover:bg-gray-700">E-Ticketing</a>
                     <a href="{{ route('admin.screeningPenyakit') }}"

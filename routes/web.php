@@ -83,8 +83,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/inventaris', [InventarisController::class, 'index'])->name('inventaris.index');
     Route::post('/inventaris', [InventarisController::class, 'store'])->name('inventaris.store');
-    Route::put('/inventaris/{inventaris}', [InventarisController::class, 'update'])->name('inventaris.update');
-    Route::delete('/inventaris/{inventaris}', [InventarisController::class, 'destroy'])->name('inventaris.destroy');
+    Route::put('/inventaris/{id}', [InventarisController::class, 'update'])->name('inventaris.update');
+    Route::delete('/inventaris/{id}', [InventarisController::class, 'destroy'])->name('inventaris.destroy');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
