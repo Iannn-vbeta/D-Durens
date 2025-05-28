@@ -1,19 +1,31 @@
-from flask import Flask, request, send_file, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_file
 from ultralytics import YOLO
 from PIL import Image, ImageDraw, ImageFont
 import os
 import uuid
-from PIL import ImageFont
 
 app = Flask(__name__)
 
-model = YOLO("flask\model\Yolov8-Deteksi-Penyakit-Durian.pt")
+# Load kedua model
+model_penyakit = YOLO("flask/model/Yolov8-Deteksi-Penyakit-Durian.pt")
+model_jenis = YOLO("flask/model/Yolov8-Deteksi-Jenis-Durian.pt")  # Pastikan pathnya benar
 
-label_map = {
+# Peta label untuk model penyakit
+label_map_penyakit = {
     0: "Alga Leaf Spot",
     1: "Leaf Blight",
     2: "Leaf Spot",
     3: "Tidak Punya Penyakit"
+}
+
+# Peta label untuk model jenis
+label_map_jenis = {
+    0: "Durian Bawor",
+    1: "Durian Duri Hitam",
+    2: "Durian Kanyao",
+    3: "Durian Monthong",
+    4: "Durian Musang King",
+    5: "Bukan Durian"
 }
 
 @app.route("/predict", methods=["POST"])
@@ -23,51 +35,66 @@ def predict():
 
     img_file = request.files['image']
     filename = f"{uuid.uuid4().hex}.jpg"
-    save_path = os.path.join("uploads", filename)
+    save_path = os.path.join("flask\\uploads", filename)
     img_file.save(save_path)
 
-    results = model(save_path)[0]
-    boxes = results.boxes
-
+    # Load gambar
     img = Image.open(save_path).convert("RGB")
     draw = ImageDraw.Draw(img)
-    font_size = 32
-    font = ImageFont.truetype("arial.ttf", font_size)
+    font = ImageFont.truetype("arial.ttf", size=32)
 
-    detected_labels = []
+    detected_penyakit = []
+    detected_jenis = []
 
-    for box in boxes:
+    # Deteksi penyakit
+    results_penyakit = model_penyakit(save_path)[0]
+    for box in results_penyakit.boxes:
         xyxy = box.xyxy[0].tolist()
         class_id = int(box.cls[0].item())
-        label = label_map.get(class_id, f"kelas-{class_id}")
-        detected_labels.append(label)
-        draw.rectangle(xyxy, outline="red", width=10)
-        draw.text((xyxy[0] + 15, xyxy[1] + 10), label, fill="red", font=font)
+        label = label_map_penyakit.get(class_id, f"kelas-{class_id}")
+        detected_penyakit.append(label)
+        draw.rectangle(xyxy, outline="red", width=5)
+        draw.text((xyxy[0] + 10, xyxy[1] + 10), f"Penyakit: {label}", fill="red", font=font)
 
-    result_path = os.path.join("flask/uploads", f"result_{filename}")
+    # Deteksi jenis
+    results_jenis = model_jenis(save_path)[0]
+    for box in results_jenis.boxes:
+        xyxy = box.xyxy[0].tolist()
+        class_id = int(box.cls[0].item())
+        label = label_map_jenis.get(class_id, f"kelas-{class_id}")
+        detected_jenis.append(label)
+        draw.rectangle(xyxy, outline="blue", width=5)
+        draw.text((xyxy[0] + 10, xyxy[1] + 50), f"{label}", fill="blue", font=font)
+
+    # Simpan gambar hasil
+    result_path = os.path.join("flask\\uploads", f"result_{filename}")
     img.save(result_path)
+
+    # Logika pengobatan
     perawatan = []
-    if detected_labels:
-        if detected_labels[0] == "Alga Leaf Spot":
-            perawatan.append("Perawatan bercak daun alga (algal leaf spot) pada durian melibatkan pembersihan daun yang sakit, pemangkasan cabang yang terinfeksi, dan penggunaan fungisida tembaga jika infeksi parah. Pemangkasan cabang dan daun yang sakit membantu mencegah penyebaran penyakit, sementara fungisida tembaga membantu mengendalikan infeksi.")
-        elif detected_labels[0] == "Leaf Blight":
-            perawatan.append("Perawatan Leaf Blight (hawar daun) pada durian dapat dilakukan dengan menjaga kebersihan kebun, memangkas daun atau ranting yang terinfeksi, dan membakar sisa tanaman yang sakit untuk mencegah penyebaran. Penyemprotan fungisida berbahan aktif seperti mancozeb atau tembaga hidroksida juga efektif dilakukan secara berkala, terutama saat musim hujan. Selain itu, penting menjaga sirkulasi udara dan pencahayaan yang baik di sekitar pohon durian dengan penjarangan tanaman serta memastikan drainase tanah optimal agar kelembapan tidak berlebih, karena kondisi lembap mendukung perkembangan penyakit ini.")
-        elif detected_labels[0] == "Leaf Spot":
-            perawatan.append("Perawatan Leaf Spot pada durian dapat dilakukan dengan cara menjaga kebersihan kebun, memangkas daun atau ranting yang terinfeksi, serta membuang sisa tanaman yang terkontaminasi untuk mencegah penyebaran. Penyemprotan fungisida berbahan aktif seperti mancozeb atau klorotalonil secara teratur juga efektif untuk mengendalikan jamur penyebab penyakit.")
-        else: 
-            perawatan.append('Tidak Perlu Perawatan')
-    print(perawatan)
+    if detected_penyakit:
+        if "Alga Leaf Spot" in detected_penyakit:
+            perawatan.append("Perawatan bercak daun alga...")
+        elif "Leaf Blight" in detected_penyakit:
+            perawatan.append("Perawatan Leaf Blight...")
+        elif "Leaf Spot" in detected_penyakit:
+            perawatan.append("Perawatan Leaf Spot...")
+        else:
+            perawatan.append("Tidak perlu perawatan")
+    else:
+        perawatan.append("Tidak terdeteksi penyakit")
+
     return jsonify({
         "filename": f"result_{filename}",
-        "penyakit": list(set(detected_labels)) or ["Tidak terdeteksi"],
-        "pengobatan" : list(set(perawatan)) or ["Tidak Perlu Dilakukan Pengobatan/Perawatan"]
+        "penyakit": list(set(detected_penyakit)) or ["Tidak terdeteksi"],
+        "jenis": list(set(detected_jenis)) or ["Tidak terdeteksi"],
+        "pengobatan": list(set(perawatan))
     })
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_file(f"uploads\\{filename}", mimetype='image/jpeg')
+    return send_file(os.path.join("uploads", filename), mimetype='image/jpeg')
 
 if __name__ == "__main__":
     os.makedirs("uploads", exist_ok=True)
     app.run(debug=True)
- 

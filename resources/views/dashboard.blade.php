@@ -47,7 +47,7 @@
                                 <a href="{{ route('screening') }}"
                                     class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Screening
                                     Penyakit</a>
-                                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Screening
+                                <a href="{{ route('screening.jenis') }}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Screening
                                     Jenis
                                     Buah</a>
                             </div>

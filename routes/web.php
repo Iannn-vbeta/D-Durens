@@ -13,6 +13,7 @@ use App\Http\Controllers\ArtikelWisataController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\PemesananTicketControler;
+use App\Http\Controllers\ScreeningJenis;
 
 
 Route::get('/', function () {
@@ -52,7 +53,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified',])->group(function () {
-    
+    Route::get('/akun-user', [UserController::class, 'index'])->name('admin.akunUser');
+    Route::post('/akun-user', [UserController::class, 'store'])->name('akunUser.store');
+    Route::put('/akun-user/{id}', [UserController::class, 'update'])->name('akunUser.update');
+    Route::delete('/akun-user/{id}', [UserController::class, 'destroy'])->name('akunUser.destroy');
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -64,6 +68,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/screening', [ScreeningController::class, 'index'])->name('screening');
 Route::post('/screening', [ScreeningController::class, 'store'])->name('screening.store');
+Route::get('/screening-jenis', [ScreeningJenis::class, 'index'])->name('screening.jenis');
+Route::post('/screening-jenis', [ScreeningJenis::class, 'store']);
 Route::get('/admin/screening', [ScreeningController::class, 'indexAdmin'])->name('admin.screeningPenyakit');
 Route::post('/admin/screening', [ScreeningController::class, 'store'])->name('admin.screeningPenyakit.store');
 
