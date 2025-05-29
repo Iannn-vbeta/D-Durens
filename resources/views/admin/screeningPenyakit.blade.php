@@ -1,6 +1,6 @@
-@extends('layouts.original')
+@extends('layouts.adminEnvironment')
 @section('title', 'Screening Penyakit Daun Durian')
-@section('main')
+@section('content')
     <main>
         <div class="bg-white flex flex-col items-center justify-center min-h-screen p-4">
             <h2 class="text-lg font-semibold mb-6">Screening Penyakit Daun Durian</h2>

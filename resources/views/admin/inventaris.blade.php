@@ -1,6 +1,6 @@
-@extends('layouts.original')
+@extends('layouts.adminEnvironment')
 @section('title', 'Inventaris')
-@section('main')
+@section('content')
 
 
     <div class="max-w-7xl mx-auto py-6">

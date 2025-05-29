@@ -1,5 +1,5 @@
-@extends('layouts.original')
-@section('main')
+@extends('layouts.adminEnvironment')
+@section('content')
     <div class="container mx-auto px-4 py-6">
         <h1 class="text-2xl font-bold mb-6">Daftar Artikel Wisata</h1>
 

@@ -1,1 +1,1 @@
-@extends('layouts.original')
+@extends('layouts.adminEnvironment')

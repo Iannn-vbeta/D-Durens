@@ -1,5 +1,5 @@
-@extends('layouts.original')
-@section('main')
+@extends('layouts.adminEnvironment')
+@section('content')
     <div class="max-w-7xl mx-auto py-6">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold">Daftar Akun User</h2>
