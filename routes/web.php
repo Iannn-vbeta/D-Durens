@@ -26,7 +26,7 @@ Route::get('/', function () {
     return view('guest.welcome'); // atau redirect ke /login
 });
 
-// Handle route kotor
+// Handle route kotori
 Route::fallback(function () {
     if (Auth::check()) {
         return Auth::user()->role_id == 1
