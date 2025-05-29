@@ -23,7 +23,7 @@ Route::get('/', function () {
             : redirect('/dashboard');
     }
 
-    return view('welcome'); // atau redirect ke /login
+    return view('guest.welcome'); // atau redirect ke /login
 });
 
 // Handle route kotor

@@ -36,8 +36,6 @@ class ScreeningController extends Controller
         $penyakit = implode(', ', $json['penyakit']);
         $perawatan = implode(', ', $json['pengobatan']);
 
-        // Ambil file gambar dari server Flask
-        // $image_response = Http::get("http://127.0.0.1:5000/uploads/$filename");
         $image_response = Http::get("http://127.0.0.1:5000/uploads/$filename");
 
 
