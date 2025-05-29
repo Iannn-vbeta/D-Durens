@@ -34,7 +34,7 @@ Route::fallback(function () {
             : redirect('/dashboard');
     }
 
-    return redirect('/'); // Redirect to home or login
+    return redirect('/'); 
 });
 
 Route::get('/dashboard', function () {

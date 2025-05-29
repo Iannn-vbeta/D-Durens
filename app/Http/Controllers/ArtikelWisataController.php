@@ -57,6 +57,12 @@ class ArtikelWisataController extends Controller
         return redirect()->route('artikel.index')->with('success', 'Artikel berhasil diperbarui!');
     }
 
+    public function show($id) {
+    $artikel = ArtikelWisata::findOrFail($id);
+    return view('artikel.show', compact('artikel'));
+}
+
+
     public function destroy($id)
     {
         $artikel = ArtikelWisata::findOrFail($id);

@@ -45,7 +45,7 @@ class UserController extends Controller
 
         $user->update([
             'username' => $request->username,
-            'email'    => $request->email,
+            'email'    => $request->email
         ]);
 
         return redirect()->route('admin.akunUser')->with('success', 'User berhasil diperbarui.');
