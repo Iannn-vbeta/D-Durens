@@ -22,7 +22,7 @@
     <ul class="mt-10 space-y-2">
         <li>
             <a
-                href="#"
+                href="{{ route('admin.dashboard') }}"
                 class="flex items-center gap-4 hover:bg-green-700 p-2 rounded-lg"
             >
                 <i class="fas fa-home min-w-[24px] text-center"></i>

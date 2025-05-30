@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller;
+use App\Models\ETicketing;
 
 class AdminDashboardController extends Controller
 {
@@ -19,6 +20,7 @@ class AdminDashboardController extends Controller
 
     public function index()
     {
-        return view('admin.dashboard');
+        $namaTiket = ETicketing::all();
+        return view('admin.dashboard', compact('namaTiket'));
     }
 }

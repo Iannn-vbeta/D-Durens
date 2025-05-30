@@ -11,7 +11,6 @@ class UserController extends Controller
 {
     public function index()
     {
-        // Ambil hanya user dengan role = 2
         $users = User::where('id_role', 2)->get();
         return view('admin.akunUser', compact('users'));
     }
@@ -20,9 +19,15 @@ class UserController extends Controller
     {
         $request->validate([
             'username' => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
+            'email'    => 'required|email',
             'password' => 'required|confirmed|min:6',
         ]);
+
+        $existingUser = User::where('email', $request->email)->first();
+
+        if ($existingUser) {
+            return redirect()->back()->with('error', 'Email sudah terdaftar.')->withInput();
+        }
 
         User::create([
             'username' => $request->username,
@@ -34,22 +39,32 @@ class UserController extends Controller
         return redirect()->route('admin.akunUser')->with('success', 'User berhasil ditambahkan.');
     }
 
+
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
         $request->validate([
             'username' => 'required|string|max:255',
-            'email'    => "required|email|unique:users,email,{$user->id}",
+            'email'    => 'required|email',
         ]);
+
+        $existingUser = User::where('email', $request->email)
+                            ->where('id', '!=', $user->id)
+                            ->first();
+
+        if ($existingUser) {
+            return redirect()->back()->with('error', 'Email sudah terdaftar.')->withInput();
+        }
 
         $user->update([
             'username' => $request->username,
-            'email'    => $request->email
+            'email'    => $request->email,
         ]);
 
         return redirect()->route('admin.akunUser')->with('success', 'User berhasil diperbarui.');
     }
+
 
     public function destroy($id)
     {

@@ -31,9 +31,19 @@ class PemesananTicketControler extends Controller
 
     public function kurangiKuota(Request $request, $id)
     {
-        $request->validate(['jumlah_kuota' => 'required|integer|min:1']);
+        $request->validate([
+            'jumlah_kuota' => 'required|integer|min:1'
+        ]);
+
         $tiket = ETicketing::findOrFail($id);
-        $tiket->kuota = max(0, $tiket->kuota - $request->jumlah_kuota);
+
+        // Cek apakah jumlah pengurangan melebihi kuota
+        if ($request->jumlah_kuota > $tiket->kuota) {
+            return back()->withErrors(['jumlah_kuota' => 'Jumlah pengurangan melebihi kuota saat ini.']);
+        }
+
+        // Kurangi kuota
+        $tiket->kuota = $tiket->kuota - $request->jumlah_kuota;
         $tiket->save();
 
         return back()->with('success', 'Kuota berhasil dikurangi.');
