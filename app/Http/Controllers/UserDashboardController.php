@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\ArtikelWisata;
+
 
 class UserDashboardController extends \Illuminate\Routing\Controller
 {
@@ -17,6 +19,15 @@ class UserDashboardController extends \Illuminate\Routing\Controller
 }
     public function index()
     {
-        return view('dashboard');
+        $artikels = ArtikelWisata::latest()->take(5)->get();
+         return view('dashboard', compact('artikels'));
     }
+
+    public function guestIndex()
+    {
+        $artikels = ArtikelWisata::latest()->take(5)->get();
+        return view('guest.welcome', compact('artikels'));
+    }
+
+
 }

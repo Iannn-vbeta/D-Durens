@@ -11,64 +11,56 @@ class ArtikelWisataController extends Controller
 {
     public function index()
     {
-        $artikels = ArtikelWisata::all();
+        $artikels = ArtikelWisata::get();
         return view('admin.artikel', compact('artikels'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpg,jpeg,png,webp',
-            'description' => 'required|string',
+        $validated = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 
-        $imagePath = $request->file('image')->store('images', 'public');
+        if ($request->file('image')) {
+            $validated['image'] = $request->file('image')->store('artikel', 'public');
+        }
 
-        ArtikelWisata::create([
-            'title' => $request->title,
-            'image' => $imagePath,
-            'description' => $request->description,
-            'user_id' => Auth::id(),
-        ]);
+        ArtikelWisata::create($validated);
 
-        return redirect()->route('artikel.index')->with('success', 'Artikel berhasil ditambahkan!');
+        return redirect()->route('admin.artikel')->with('success', 'Artikel ditambahkan');
     }
 
     public function update(Request $request, $id)
     {
         $artikel = ArtikelWisata::findOrFail($id);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp'
+        $validated = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 
-        if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($artikel->image);
-            $artikel->image = $request->file('image')->store('images', 'public');
+        if ($request->file('image')) {
+            $validated['image'] = $request->file('image')->store('artikel', 'public');
         }
 
-        $artikel->title = $request->title;
-        $artikel->description = $request->description;
-        $artikel->save();
+        $artikel->update($validated);
 
-        return redirect()->route('artikel.index')->with('success', 'Artikel berhasil diperbarui!');
+        return redirect()->route('admin.artikel')->with('success', 'Artikel diperbarui');
     }
-
-    public function show($id) {
-    $artikel = ArtikelWisata::findOrFail($id);
-    return view('artikel.show', compact('artikel'));
-}
-
 
     public function destroy($id)
     {
-        $artikel = ArtikelWisata::findOrFail($id);
-        Storage::disk('public')->delete($artikel->image);
-        $artikel->delete();
-
-        return redirect()->route('artikel.index')->with('success', 'Artikel berhasil dihapus!');
+        ArtikelWisata::findOrFail($id)->delete();
+        return redirect()->route('admin.artikel')->with('success', 'Artikel dihapus');
     }
+
+    public function showArtikel($id)
+    {
+        $artikel = ArtikelWisata::findOrFail($id);
+        return view('guest.welcome', compact('artikel'));
+    }
+
 }

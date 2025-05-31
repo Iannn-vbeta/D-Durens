@@ -5,7 +5,113 @@
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <!-- Gambar dulu untuk mobile, tapi di md urutannya jadi kedua -->
             <div class="order-1 md:order-2 flex justify-center">
-                <img src="{{ asset('img/Atas.png') }}" alt="Kampung Wisata" class="rounded-lg shadow-lg max-w-full h-auto" />
+                <!-- Carousel -->
+                <div id="carouselExample" class="relative w-full max-w-md touch-pan-x select-none" data-carousel="static">
+                    <!-- Carousel wrapper -->
+                    <div class="relative h-64 overflow-hidden rounded-lg">
+                        @php
+                            $carouselImages = ['img/Atas.png', 'img/suasana1.png', 'img/suasana2.png'];
+                        @endphp
+                        @foreach ($carouselImages as $index => $img)
+                            <div class="absolute inset-0 transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }} carousel-item"
+                                data-carousel-item="{{ $index }}">
+                                <img src="{{ asset($img) }}" class="block w-full h-full object-cover"
+                                    alt="Slide {{ $index + 1 }}">
+                            </div>
+                        @endforeach
+                    </div>
+                    <!-- Slider controls -->
+                    <button type="button"
+                        class="absolute top-1/2 left-0 z-30 flex items-center justify-center h-10 w-10 -translate-y-1/2 bg-white/70 rounded-full shadow hover:bg-white"
+                        data-carousel-prev>
+                        <span class="sr-only">Previous</span>
+                        <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button type="button"
+                        class="absolute top-1/2 right-0 z-30 flex items-center justify-center h-10 w-10 -translate-y-1/2 bg-white/70 rounded-full shadow hover:bg-white"
+                        data-carousel-next>
+                        <span class="sr-only">Next</span>
+                        <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- Carousel Script -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const items = document.querySelectorAll('[data-carousel-item]');
+                        let current = 0;
+
+                        function showItem(idx) {
+                            items.forEach((el, i) => {
+                                el.classList.toggle('opacity-100', i === idx);
+                                el.classList.toggle('opacity-0', i !== idx);
+                            });
+                        }
+
+                        document.querySelector('[data-carousel-prev]').addEventListener('click', function() {
+                            current = (current - 1 + items.length) % items.length;
+                            showItem(current);
+                        });
+
+                        document.querySelector('[data-carousel-next]').addEventListener('click', function() {
+                            current = (current + 1) % items.length;
+                            showItem(current);
+                        });
+
+                        // Optional: auto-slide
+                        let autoSlide = setInterval(() => {
+                            current = (current + 1) % items.length;
+                            showItem(current);
+                        }, 4000);
+
+                        // Touch/drag support
+                        let startX = null;
+                        let dragging = false;
+                        const carousel = document.getElementById('carouselExample');
+
+                        carousel.addEventListener('touchstart', function(e) {
+                            if (e.touches.length === 1) {
+                                startX = e.touches[0].clientX;
+                                dragging = true;
+                                clearInterval(autoSlide);
+                            }
+                        });
+
+                        carousel.addEventListener('touchmove', function(e) {
+                            // Prevent scrolling while swiping
+                            if (dragging) e.preventDefault();
+                        }, {
+                            passive: false
+                        });
+
+                        carousel.addEventListener('touchend', function(e) {
+                            if (!dragging || startX === null) return;
+                            let endX = e.changedTouches[0].clientX;
+                            let diff = endX - startX;
+                            if (Math.abs(diff) > 40) {
+                                if (diff < 0) {
+                                    // Geser ke kanan (next)
+                                    current = (current + 1) % items.length;
+                                } else {
+                                    // Geser ke kiri (prev)
+                                    current = (current - 1 + items.length) % items.length;
+                                }
+                                showItem(current);
+                            }
+                            dragging = false;
+                            startX = null;
+                            autoSlide = setInterval(() => {
+                                current = (current + 1) % items.length;
+                                showItem(current);
+                            }, 4000);
+                        });
+                    });
+                </script>
             </div>
 
             <!-- Teks & tombol -->
@@ -119,67 +225,57 @@
             <h3>Seputar <span class="text-green-600">Kampung Wisata Durian</span></h3>
         </div>
         <div>
-            <h1>Comings soon</h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                @foreach ($artikels as $artikel)
+                    <div class="bg-white shadow p-4 rounded">
+                        <img src="{{ asset('storage/' . $artikel->image) }}" alt=""
+                            class="w-full h-40 object-cover">
+                        <h2 class="text-xl font-bold mt-2">{{ $artikel->title }}</h2>
+                        <p class="text-gray-600 mt-1">{{ Str::limit($artikel->description, 10) }}</p>
+                        <a href="{{ route('artikel.showArtikel', $artikel->article_id) }}"
+                            class="text-blue-500 mt-2 inline-block">Baca
+                            Selengkapnya</a>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
-    {{-- <div class="grid grid-cols-3 gap-4 mt-10">
-        <div class="p-4 bg-white shadow-lg rounded-xl">
-            <img src="{{ asset('img/artikel1.jpg') }}" alt="Artikel 1" class="rounded-lg w-full h-40 object-cover">
-            <h3 class="text-lg font-bold mt-2">Judul Artikel 1</h3>
-            <p class="text-sm text-gray-600">Deskripsi singkat artikel 1 seputar Kampung Wisata Durian...</p>
-            <a href="#" class="inline-block mt-4 px-4 py-2 bg-green-600 text-white rounded-full">Baca Selengkapnya</a>
-        </div>
-        <div class="p-4 bg-white shadow-lg rounded-xl">
-            <img src="{{ asset('img/artikel2.jpg') }}" alt="Artikel 2" class="rounded-lg w-full h-40 object-cover">
-            <h3 class="text-lg font-bold mt-2">Judul Artikel 2</h3>
-            <p class="text-sm text-gray-600">Deskripsi singkat artikel 2 seputar Kampung Wisata Durian...</p>
-            <a href="#" class="inline-block mt-4 px-4 py-2 bg-green-600 text-white rounded-full">Baca Selengkapnya</a>
-        </div>
-        <div class="p-4 bg-white shadow-lg rounded-xl">
-            <img src="{{ asset('img/artikel3.jpg') }}" alt="Artikel 3" class="rounded-lg w-full h-40 object-cover">
-            <h3 class="text-lg font-bold mt-2">Judul Artikel 3</h3>
-            <p class="text-sm text-gray-600">Deskripsi singkat artikel 3 seputar Kampung Wisata Durian...</p>
-            <a href="#" class="inline-block mt-4 px-4 py-2 bg-green-600 text-white rounded-full">Baca Selengkapnya</a>
-        </div>
-    </div> --}}
-<div class="w-full mt-20 flex flex-col items-center mb-20"> <!-- Ditambahkan margin bawah -->
-    <h2 class="text-3xl font-bold text-center mb-10">
-        Mulai <span class="text-green-600">sekarang</span> dan buat pengalaman berharga
-    </h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl px-4">
-        <!-- Kartu Tiket Menginap -->
-        <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
-            <img src="{{ asset('img/iconTiketWisata.png') }}" alt="Tiket Menginap" class="w-24 h-24 mb-4">
-            <h3 class="text-lg font-semibold">Tiket Menginap</h3>
-            <p class="text-gray-600 mt-2 text-sm">Rp. 30.000</p>
-            <a href="{{ route('pemesanan.create') }}" class="mt-4 w-full">
-                <button class="w-full py-2 rounded-full bg-black text-white hover:bg-green-600 transition">
-                    Pesan Sekarang
+    <div class="w-full mt-20 flex flex-col items-center mb-20"> <!-- Ditambahkan margin bawah -->
+        <h2 class="text-3xl font-bold text-center mb-10">
+            Mulai <span class="text-green-600">sekarang</span> dan buat pengalaman berharga
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl px-4">
+            <!-- Kartu Tiket Menginap -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
+                <img src="{{ asset('img/iconTiketWisata.png') }}" alt="Tiket Menginap" class="w-24 h-24 mb-4">
+                <h3 class="text-lg font-semibold">Tiket Menginap</h3>
+                <p class="text-gray-600 mt-2 text-sm">Rp. 30.000</p>
+                <a href="{{ route('pemesanan.create') }}" class="mt-4 w-full">
+                    <button class="w-full py-2 rounded-full bg-black text-white hover:bg-green-600 transition">
+                        Pesan Sekarang
+                    </button>
+                </a>
+            </div>
+            <!-- Kartu Tiket Masuk -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
+                <img src="{{ asset('img/iconTiketWisata.png') }}" alt="Tiket Masuk" class="w-24 h-24 mb-4">
+                <h3 class="text-lg font-semibold">Tiket Masuk</h3>
+                <p class="text-gray-600 mt-2 text-sm">Rp. 5.000</p>
+                <a href="{{ route('pemesanan.create') }}" class="mt-4 w-full">
+                    <button class="w-full py-2 rounded-full bg-black text-white hover:bg-green-600 transition">
+                        Pesan Sekarang
+                    </button>
+                </a>
+            </div>
+            <!-- Kartu Sewa Rumah Segitiga -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
+                <img src="{{ asset('img/iconTiketWisata.png') }}" alt="Sewa Rumah Segitiga" class="w-24 h-24 mb-4">
+                <h3 class="text-lg font-semibold">Sewa Rumah Segitiga</h3>
+                <p class="text-gray-600 mt-2 text-sm">Rp. 125.000</p>
+                <button class="mt-4 w-full py-2 rounded-full bg-gray-400 text-white cursor-not-allowed" disabled>
+                    Coming Soon
                 </button>
-            </a>
-        </div>
-        <!-- Kartu Tiket Masuk -->
-        <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
-            <img src="{{ asset('img/iconTiketWisata.png') }}" alt="Tiket Masuk" class="w-24 h-24 mb-4">
-            <h3 class="text-lg font-semibold">Tiket Masuk</h3>
-            <p class="text-gray-600 mt-2 text-sm">Rp. 5.000</p>
-            <a href="{{ route('pemesanan.create') }}" class="mt-4 w-full">
-                <button class="w-full py-2 rounded-full bg-black text-white hover:bg-green-600 transition">
-                    Pesan Sekarang
-                </button>
-            </a>
-        </div>
-        <!-- Kartu Sewa Rumah Segitiga -->
-        <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
-            <img src="{{ asset('img/iconTiketWisata.png') }}" alt="Sewa Rumah Segitiga" class="w-24 h-24 mb-4">
-            <h3 class="text-lg font-semibold">Sewa Rumah Segitiga</h3>
-            <p class="text-gray-600 mt-2 text-sm">Rp. 125.000</p>
-            <button class="mt-4 w-full py-2 rounded-full bg-gray-400 text-white cursor-not-allowed" disabled>
-                Coming Soon
-            </button>
+            </div>
         </div>
     </div>
-</div>
-
-
 @endsection

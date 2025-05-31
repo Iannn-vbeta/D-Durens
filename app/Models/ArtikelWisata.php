@@ -11,7 +11,7 @@ class ArtikelWisata extends Model
     protected $primaryKey = 'article_id';
     public $timestamps = false;
 
-    protected $fillable = ['title', 'description', 'created_at', 'user_id'];
+    protected $fillable = ['title', 'description', 'image', 'created_at', 'user_id'];
 
     public function user(): BelongsTo
     {

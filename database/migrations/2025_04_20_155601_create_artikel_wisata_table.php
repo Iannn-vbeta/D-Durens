@@ -10,9 +10,9 @@ return new class extends Migration {
             $table->id('article_id');
             $table->string('title');
             $table->text('description');
-            $table->text('image');
-            $table->date('created_at');
-            $table->unsignedBigInteger('user_id');
+            $table->text('image')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

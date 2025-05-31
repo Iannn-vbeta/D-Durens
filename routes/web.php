@@ -15,16 +15,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\PemesananTicketControler;
 use App\Http\Controllers\ScreeningJenis;
 
-
-Route::get('/', function () {
-    if (Auth::check()) {
-        return Auth::user()->role_id == 1
-            ? redirect('/admin/dashboard')
-            : redirect('/dashboard');
-    }
-
-    return view('guest.welcome'); // atau redirect ke /login
-});
+Route::get('/',[UserDashboardController::class,'guestIndex']) ;
 
 // Handle route kotori
 Route::fallback(function () {
@@ -81,12 +72,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/admin/artikel/{id}', [ArtikelWisataController::class, 'update'])->name('artikel.update');
         Route::delete('/admin/artikel/{id}', [ArtikelWisataController::class, 'destroy'])->name('artikel.destroy');
 });
+        Route::get('/artikel/{id}', [ArtikelWisataController::class, 'showArtikel'])->name('artikel.showArtikel');
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/inventaris', [InventarisController::class, 'index'])->name('inventaris.index');
-    Route::post('/inventaris', [InventarisController::class, 'store'])->name('inventaris.store');
-    Route::put('/inventaris/{id}', [InventarisController::class, 'update'])->name('inventaris.update');
-    Route::delete('/inventaris/{id}', [InventarisController::class, 'destroy'])->name('inventaris.destroy');
+    Route::get('/admin/inventaris', [InventarisController::class, 'index'])->name('inventaris.index');
+    Route::post('/admin/inventaris', [InventarisController::class, 'store'])->name('inventaris.store');
+    Route::put('/admin/inventaris/{id}', [InventarisController::class, 'update'])->name('inventaris.update');
+    Route::delete('/admin/inventaris/{id}', [InventarisController::class, 'destroy'])->name('inventaris.destroy');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
