@@ -127,4 +127,17 @@ class PemesananTicketControler extends Controller
     {
         return view('pemesanan.success');
     }
+
+    public function riwayatPembelian($username)
+    {
+        // Ambil user berdasarkan username
+        $user = User::where('username', $username)->firstOrFail();
+
+        // Ambil semua pemesanan tiket user beserta relasi tiket dan status
+        $pemesanan = PemesananTiket::with(['tiket', 'status'])
+            ->where('user_id', $user->id)
+            ->get();
+
+        return view('riwayatPembelianTiket', compact('pemesanan', 'user'));
+    }
 }

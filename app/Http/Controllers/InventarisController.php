@@ -27,16 +27,16 @@ class InventarisController extends Controller
 
     public function store(Request $request)
     {
-      
+
         $request->validate([
             'item_name' => 'required',
             'amount' => 'required|integer',
-            'category_id' => 'required|exists:kategori_barang,category_id', 
-            'ketersediaan_id' => 'required|exists:ketersediaan,ketersediaan_id', 
-            'kelayakan_id' => 'required|exists:kelayakan,kelayakan_id', 
+            'category_id' => 'required|exists:kategori_barang,category_id',
+            'ketersediaan_id' => 'required|exists:ketersediaan,ketersediaan_id',
+            'kelayakan_id' => 'required|exists:kelayakan,kelayakan_id',
             'deskripsi' => 'nullable',
         ]);
-        
+
         $inventaris = Inventaris::create([
             'item_name' => $request->item_name,
             'amount' => $request->amount,
@@ -54,23 +54,35 @@ class InventarisController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Temukan data inventaris berdasarkan ID
         $inventaris = Inventaris::findOrFail($id);
 
+        // Validasi input dari request
         $request->validate([
-            'item_name' => 'required',
+            'item_name' => 'required|string|max:255',
             'amount' => 'required|integer',
             'category_id' => 'required|exists:kategori_barang,category_id',
-            'user_id' => 'required|exists:users,id',
             'ketersediaan_id' => 'required|exists:ketersediaan,ketersediaan_id',
             'kelayakan_id' => 'required|exists:kelayakan,kelayakan_id',
-            'deskripsi' => 'nullable',
+            'deskripsi' => 'nullable|string',
         ]);
 
-        $data = $request->all();
-        $data['user_id'] = Auth::id();
+        // Ambil data request yang diperlukan
+        $data = [
+            'item_name' => $request->item_name,
+            'amount' => $request->amount,
+            'category_id' => $request->category_id,
+            'ketersediaan_id' => $request->ketersediaan_id,
+            'kelayakan_id' => $request->kelayakan_id,
+            'deskripsi' => $request->deskripsi,
+            'user_id' => Auth::id(), // User yang mengedit data
+        ];
+
+        // Update data inventaris
         $inventaris->update($data);
 
-        return redirect()->route('inventaris.index')->with('success', 'Data inventaris berhasil diupdate.');
+        // Redirect kembali ke halaman inventaris dengan pesan sukses
+        return redirect()->route('inventaris.index')->with('success', 'Data inventaris berhasil diperbarui.');
     }
 
     public function destroy($id)

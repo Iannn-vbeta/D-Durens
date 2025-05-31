@@ -52,7 +52,7 @@
                     >
                 </li>
                 <li>
-                    <a href="{{ route('admin.akunAdmin') }}" class="block hover:bg-green-700 p-2 rounded-lg"
+                    <a href="{{ route('akunAdmin.index') }}" class="block hover:bg-green-700 p-2 rounded-lg"
                         >Data Akun Admin</a
                     >
                 </li>
@@ -78,7 +78,7 @@
                     >
                 </li>
                 <li>
-                    <a href="#" class="block hover:bg-green-700 p-2 rounded-lg"
+                    <a href="{{ route('admin.screeningJenis') }}" class="block hover:bg-green-700 p-2 rounded-lg"
                         >Screening Jenis Durian</a
                     >
                 </li>

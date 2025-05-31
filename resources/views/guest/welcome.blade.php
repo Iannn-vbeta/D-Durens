@@ -70,36 +70,36 @@
     </div>
 </div>
 {{-- Statistik --}}
-<div class="grid grid-cols-1 md:grid-cols-12 gap-4 py-20 px-4 md:px-12">
-    <div class="col-span-1 md:col-span-4 flex justify-center items-center text-center md:text-left">
-        <h2 class="text-lg md:text-xl font-semibold">Bantu wisata lokal <br>
-            <span class="text-green-600 text-2xl md:text-3xl font-bold">untuk terus berkembang</span>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 py-20 px-4 max-w-7xl mx-auto">
+    <!-- Kiri: Judul -->
+    <div class="md:col-span-4 flex justify-center items-center text-center md:text-left">
+        <h2 class="text-2xl md:text-3xl font-bold">
+            Bantu wisata lokal <br>
+            <span class="text-green-600">untuk terus berkembang</span>
         </h2>
     </div>
-    <div class="col-span-1 md:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <div class="p-4 text-center">
-            <div class="flex flex-col items-center">
-                <img src="{{ asset('img/iconorang.png') }}" alt="Kampung Wisata"
-                    class="rounded-lg shadow-lg max-w-full h-auto w-16 md:w-20">
-                <div class="text-lg font-bold text-green-600 mt-2">1,234</div>
-                <div class="text-sm font-semibold text-gray-700">Jumlah Pengunjung</div>
-            </div>
+
+    <!-- Kanan: Statistik -->
+    <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- Jumlah Pengunjung -->
+        <div class="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center">
+            <img src="{{ asset('img/iconorang.png') }}" alt="Jumlah Pengunjung" class="w-16 h-16 mb-2">
+            <div class="text-lg font-bold text-green-600">1,234</div>
+            <div class="text-sm font-semibold text-gray-700">Jumlah Pengunjung</div>
         </div>
-        <div class="p-4 text-center">
-            <div class="flex flex-col items-center">
-                <img src="{{ asset('img/iconbintang.png') }}" alt="Kampung Wisata"
-                    class="rounded-lg shadow-lg max-w-full h-auto w-16 md:w-20">
-                <div class="text-lg font-bold text-green-600 mt-2">4,5</div>
-                <div class="text-sm font-semibold text-gray-700">Jumlah Review Positif</div>
-            </div>
+
+        <!-- Jumlah Review Positif -->
+        <div class="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center">
+            <img src="{{ asset('img/iconbintang.png') }}" alt="Jumlah Review Positif" class="w-16 h-16 mb-2">
+            <div class="text-lg font-bold text-green-600">4,5</div>
+            <div class="text-sm font-semibold text-gray-700">Jumlah Review Positif</div>
         </div>
-        <div class="p-4 text-center">
-            <div class="flex flex-col items-center">
-                <img src="{{ asset('img/icontiket.png') }}" alt="Kampung Wisata"
-                    class="rounded-lg shadow-lg max-w-full h-auto w-16 md:w-20">
-                <div class="text-lg font-bold text-green-600 mt-2">1,200++</div>
-                <div class="text-sm font-semibold text-gray-700">Jumlah Tiket Terjual</div>
-            </div>
+
+        <!-- Jumlah Tiket Terjual -->
+        <div class="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center">
+            <img src="{{ asset('img/icontiket.png') }}" alt="Jumlah Tiket Terjual" class="w-16 h-16 mb-2">
+            <div class="text-lg font-bold text-green-600">1,200++</div>
+            <div class="text-sm font-semibold text-gray-700">Jumlah Tiket Terjual</div>
         </div>
     </div>
 </div>

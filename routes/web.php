@@ -72,6 +72,8 @@ Route::get('/screening-jenis', [ScreeningJenis::class, 'index'])->name('screenin
 Route::post('/screening-jenis', [ScreeningJenis::class, 'store']);
 Route::get('/admin/screening', [ScreeningController::class, 'indexAdmin'])->name('admin.screeningPenyakit');
 Route::post('/admin/screening', [ScreeningController::class, 'store'])->name('admin.screeningPenyakit.store');
+Route::get('/admin/screeningJenis', [ScreeningJenis::class, 'indexAdmin'])->name('admin.screeningJenis');
+Route::post('/admin/screeningJenis', [ScreeningJenis::class, 'store'])->name('admin.screeningJenis.store');
 
 Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/admin/artikel', [ArtikelWisataController::class, 'index'])->name('admin.artikel');
@@ -95,6 +97,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/pemesanan/create', [PemesananTicketControler::class, 'create'])->name('pemesanan.create');
     Route::post('/pemesanan/store', [PemesananTicketControler::class, 'store'])->name('pemesanan.store');
     Route::get('/pemesanan/success', [PemesananTicketControler::class, 'success'])->name('pemesanan.success');
+    Route::get('/pemesanan/{username}', [PemesananTicketControler::class, 'riwayatPembelian'])->name('pemesanan.riwayatPembelian');
 });
 
 require __DIR__.'/auth.php';
