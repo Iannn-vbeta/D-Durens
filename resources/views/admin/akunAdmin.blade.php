@@ -1,13 +1,8 @@
 @extends('layouts.adminEnvironment')
 @section('content')
-    @if (session('success'))
-        <div class="mb-4 p-4 bg-green-100 text-green-800 rounded">
-            {{ session('success') }}
-        </div>
-    @endif
     <div class="max-w-7xl mx-auto py-6">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold">Daftar Akun User</h2>
+            <h2 class="text-xl font-semibold">Daftar Akun Admin</h2>
             <button onclick="openModal('addUserModal')"
                 class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Tambah Data</button>
         </div>
@@ -17,6 +12,13 @@
                 {{ session('success') }}
             </div>
         @endif
+
+        @if (session('error'))
+            <div class="mb-4 p-4 bg-red-100 text-red-800 rounded">
+                {{ session('error') }}
+            </div>
+        @endif
+
 
         <div class="overflow-x-auto bg-white rounded shadow">
             <table class="min-w-full divide-y divide-gray-200">
@@ -36,7 +38,7 @@
                                 <button
                                     onclick="openEditModal({{ $user->id }}, '{{ $user->username }}', '{{ $user->email }}')"
                                     class="text-yellow-600 hover:underline">Edit</button>
-                                <form action="{{ route('akunUser.destroy', $user->id) }}" method="POST"
+                                <form action="{{ route('akunAdmin.destroy', $user->id) }}" method="POST"
                                     onsubmit="return confirm('Yakin hapus user ini?')">
                                     @csrf
                                     @method('DELETE')

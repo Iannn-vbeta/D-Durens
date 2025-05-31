@@ -18,12 +18,26 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi input awal
         $request->validate([
             'username' => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
+            'email'    => 'required|email',
             'password' => 'required|confirmed|min:6',
         ]);
 
+        // Periksa apakah email mengandung tanda "@"
+        if (!str_contains($request->email, '@')) {
+            return redirect()->back()->with('error', 'Email tidak valid. Pastikan mengandung tanda "@"')->withInput();
+        }
+
+        // Cek apakah email sudah digunakan oleh user lain
+        $existingUser = User::where('email', $request->email)->first();
+
+        if ($existingUser) {
+            return redirect()->back()->with('error', 'Email sudah terdaftar.')->withInput();
+        }
+
+        // Jika validasi lolos dan email unik, buat user baru
         User::create([
             'username' => $request->username,
             'email'    => $request->email,
@@ -31,7 +45,7 @@ class AdminController extends Controller
             'id_role'  => 1
         ]);
 
-        return redirect()->route('admin.akunAdmin')->with('success', 'Admin berhasil ditambahkan.');
+        return redirect()->route('akunAdmin.index')->with('success', 'Admin berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -48,7 +62,7 @@ class AdminController extends Controller
             'email'    => $request->email,
         ]);
 
-        return redirect()->route('admin.akunAdmin')->with('success', 'Admin berhasil diperbarui.');
+        return redirect()->route('akunAdmin.index')->with('success', 'Admin berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -56,6 +70,6 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('admin.akunAdmin')->with('success','Admin berhasil dihapus.');
+        return redirect()->route('akunAdmin.index')->with('success','Admin berhasil dihapus.');
     }
 }

@@ -11,10 +11,10 @@
     @endif
 
     <!-- Grid Ticket Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
-        @foreach ($tickets as $ticket)
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12 overflow-x-auto sm:overflow-visible max-h-[700px]">
+        @foreach ($tickets as $index => $ticket)
             <div
-                class="ticket-card bg-white p-6 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-200"
+                class="ticket-card bg-white p-6 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-200 {{ $index >= 10 ? 'sm:hidden' : '' }}"
                 data-id="{{ $ticket->ticket_id }}"
                 data-name="{{ $ticket->ticket_name }}"
                 data-desc="{{ $ticket->deskripsi }}"
@@ -28,6 +28,7 @@
             </div>
         @endforeach
     </div>
+
 
     <!-- Modal -->
     <div id="modal"

@@ -34,7 +34,7 @@ Route::fallback(function () {
             : redirect('/dashboard');
     }
 
-    return redirect('/'); 
+    return redirect('/');
 });
 
 Route::get('/dashboard', function () {
@@ -60,7 +60,7 @@ Route::middleware(['auth', 'verified',])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/akun-admin', [AdminController::class, 'index'])->name('admin.akunAdmin');
+    Route::get('/akun-admin', [AdminController::class, 'index'])->name('akunAdmin.index');
     Route::post('/akun-admin', [AdminController::class, 'store'])->name('akunAdmin.store');
     Route::put('/akun-admin/{id}', [AdminController::class, 'update'])->name('akunAdmin.update');
     Route::delete('/akun-admin/{id}', [AdminController::class, 'destroy'])->name('akunAdmin.destroy');
