@@ -16,7 +16,6 @@
         <table class="w-full border border-gray-300 table-fixed">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="border p-2 w-12">No.</th>
                     <th class="border p-2 w-1/6">Judul</th>
                     <th class="border p-2 w-24">Gambar</th>
                     <th class="border p-2 w-2/5">Deskripsi</th>
@@ -26,7 +25,6 @@
             <tbody>
                 @foreach ($artikels as $artikel)
                     <tr>
-                        <td class="border p-2 text-center">{{ $loop->iteration }}</td>
                         <td class="border p-2 truncate">{{ $artikel->title }}</td>
                         <td class="border p-2">
                             @if ($artikel->image)

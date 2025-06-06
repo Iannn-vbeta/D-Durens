@@ -27,7 +27,6 @@
         <table class="min-w-full text-sm text-left border border-gray-200">
             <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
                 <tr>
-                    <th class="px-4 py-2 border">#</th>
                     <th class="px-4 py-2 border">Nama Tiket</th>
                     <th class="px-4 py-2 border">Kuota</th>
                     <th class="px-4 py-2 border">Harga</th>
@@ -37,7 +36,6 @@
             <tbody class="text-gray-800">
                 @foreach ($namaTiket as $i => $t)
                 <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-2 border">{{ $i + 1 }}</td>
                     <td class="px-4 py-2 border">{{ $t->ticket_name ?? '-'}}</td>
                     <td class="px-4 py-2 border">{{ $t->kuota }}</td>
                     <td class="px-4 py-2 border">Rp{{ number_format($t->price, 0, ',', '.') }}</td>

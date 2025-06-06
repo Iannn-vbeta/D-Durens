@@ -19,7 +19,6 @@
         <table class="min-w-full text-sm text-left border border-gray-200">
             <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
                 <tr>
-                    <th class="px-4 py-2 border">#</th>
                     <th class="px-4 py-2 border">Username</th>
                     <th class="px-4 py-2 border">Email</th>
                     <th class="px-4 py-2 border">Nama Tiket</th>
@@ -33,7 +32,6 @@
             <tbody class="text-gray-800">
                 @foreach ($pemesanan as $index => $p)
                 <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-2 border">{{ $index + 1 }}</td>
                     <td class="px-4 py-2 border">{{ $p->user->username ?? '-' }}</td>
                     <td class="px-4 py-2 border">{{ $p->user->email ?? '-' }}</td>
                     <td class="px-4 py-2 border">{{ $p->tiket->ticket_name ?? '-' }}</td>
