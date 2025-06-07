@@ -32,6 +32,10 @@ class ProfileController extends Controller
         $request->validate([
             'username' => 'required|string|max:255',
             'email'    => "required|email|unique:users,email,{$user->id}",
+        ], [
+            'email.unique' => 'Email telah terdaftar.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
         ]);
 
         $user->update([

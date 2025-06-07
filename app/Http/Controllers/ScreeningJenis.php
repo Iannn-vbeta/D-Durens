@@ -37,7 +37,7 @@ class ScreeningJenis extends Controller
             'image',
             file_get_contents($image->getRealPath()),
             $image->getClientOriginalName()
-        )->post('http://127.0.0.1:5000/predict'); // Endpoint Flask untuk deteksi jenis
+        )->post('http://127.0.0.1:5000/predict/jenis'); // Endpoint Flask untuk deteksi jenis
 
         if ($response->successful()) {
             $json = $response->json();

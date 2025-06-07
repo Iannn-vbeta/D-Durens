@@ -34,7 +34,7 @@ public function store(Request $request)
         'image',
         file_get_contents($image->getRealPath()),
         $image->getClientOriginalName()
-    )->post('http://127.0.0.1:5000/predict');
+    )->post('http://127.0.0.1:5000/predict/penyakit');
 
     if ($response->successful()) {
         $json = $response->json();

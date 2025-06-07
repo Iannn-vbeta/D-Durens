@@ -71,7 +71,6 @@
         const fileName = input.files.length > 0 ? input.files[0].name : 'No file chosen';
         document.getElementById('file-name').textContent = fileName;
 
-        // Sembunyikan pesan error jika sudah memilih file
         if (input.files.length > 0) {
             document.getElementById('upload-error').classList.add('hidden');
         }
@@ -82,13 +81,13 @@
         const errorText = document.getElementById('upload-error');
 
         if (fileInput.files.length === 0) {
-            errorText.classList.remove('hidden'); // tampilkan pesan error
-            return false; // cegah submit
+            errorText.classList.remove('hidden');
+            return false;
         } else {
-            errorText.classList.add('hidden'); // sembunyikan pesan error
-            return true; // lanjut submit
-        }
+            errorText.classList.add('hidden');
+            return true;
     }
+}
 </script>
 
 
