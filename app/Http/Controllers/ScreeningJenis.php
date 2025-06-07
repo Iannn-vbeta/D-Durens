@@ -20,9 +20,17 @@ class ScreeningJenis extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'durian_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+        $request->validate(
+            [
+                'durian_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            ],
+            [
+                'durian_image.required' => 'Gambar buah harus diunggah.',
+                'durian_image.image' => 'File yang diunggah harus berupa gambar.',
+                'durian_image.mimes' => 'Format file gambar tidak valid. Hanya mendukung jpeg, jpg, dan png.',
+                'durian_image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
+            ]
+        );
 
         $image = $request->file('durian_image');
         $response = Http::attach(

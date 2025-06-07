@@ -9,30 +9,40 @@
         @csrf
 
         <!-- Upload file -->
-        <div class="flex items-center border-2 border-gray-300 rounded-lg px-4 py-2 w-full">
-            <label for="leaf_image" class="bg-green-700 text-white px-4 py-2 rounded cursor-pointer">
-                Choose File
-            </label>
-            <input id="leaf_image" type="file" name="leaf_image" class="hidden"
-                onchange="updateFileName()" required>
-            <span id="file-name" class="ml-4 text-gray-600 truncate">No file chosen</span>
+        <div class="flex flex-col w-full">
+            <div class="flex items-center border-2 border-gray-300 rounded-lg px-4 py-2">
+                <label for="leaf_image" class="bg-green-700 text-white px-4 py-2 rounded cursor-pointer">
+                    Choose File
+                </label>
+                <input id="leaf_image" type="file" name="leaf_image" class="hidden"
+                    onchange="updateFileName()" required>
+                <span id="file-name" class="ml-4 text-gray-600 truncate">No file chosen</span>
+            </div>
+
+            <!-- Error message -->
+            @error('leaf_image')
+                <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
+            @enderror
+            <span id="upload-error" class="text-red-500 text-sm mt-2 hidden">Silakan pilih file gambar daun terlebih dahulu.</span>
         </div>
 
         <!-- Tombol Scan -->
-        <button type="submit" class="bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800">
+        <button type="submit" onclick="return validateForm()" class="bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800">
             Scan
         </button>
 
+
         <!-- Kotak hasil deteksi -->
         <div
-            class="border border-black w-full min-h-[160px] rounded p-2 bg-gray-50 flex items-center justify-center">
+            class="border border-black rounded p-2 bg-gray-50 inline-flex items-center justify-center max-w-full overflow-auto">
             @if (session('success'))
                 <img src="{{ asset('storage/hasil_deteksi/' . session('filename')) }}" alt="Hasil Deteksi"
-                    class="object-contain max-w-[640px] max-h-[640px]">
+                    class="object-contain max-w-full max-h-[500px] rounded">
             @else
                 <span class="text-gray-400">Hasil akan ditampilkan di sini...</span>
             @endif
         </div>
+
 
         <!-- Hasil dan Rekomendasi -->
         <div class="mt-4 text-left w-full">
@@ -60,7 +70,26 @@
         const input = document.getElementById('leaf_image');
         const fileName = input.files.length > 0 ? input.files[0].name : 'No file chosen';
         document.getElementById('file-name').textContent = fileName;
+
+        // Sembunyikan pesan error jika sudah memilih file
+        if (input.files.length > 0) {
+            document.getElementById('upload-error').classList.add('hidden');
+        }
+    }
+
+    function validateForm() {
+        const fileInput = document.getElementById('leaf_image');
+        const errorText = document.getElementById('upload-error');
+
+        if (fileInput.files.length === 0) {
+            errorText.classList.remove('hidden'); // tampilkan pesan error
+            return false; // cegah submit
+        } else {
+            errorText.classList.add('hidden'); // sembunyikan pesan error
+            return true; // lanjut submit
+        }
     }
 </script>
+
 
 @endsection
