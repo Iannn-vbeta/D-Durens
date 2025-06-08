@@ -60,7 +60,7 @@ class ArtikelWisataController extends Controller
     public function showArtikel($id)
     {
         $artikel = ArtikelWisata::findOrFail($id);
-        return view('guest.welcome', compact('artikel'));
+        return view('artikel', compact('artikel'));
     }
 
 }
