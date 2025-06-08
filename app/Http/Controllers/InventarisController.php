@@ -54,11 +54,11 @@ class InventarisController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Temukan data inventaris berdasarkan ID
+        // Cari data inventaris berdasarkan ID
         $inventaris = Inventaris::findOrFail($id);
 
-        // Validasi input dari request
-        $request->validate([
+        // Validasi inputan
+        $validated = $request->validate([
             'item_name' => 'required|string|max:255',
             'amount' => 'required|integer',
             'category_id' => 'required|exists:kategori_barang,category_id',
@@ -67,19 +67,11 @@ class InventarisController extends Controller
             'deskripsi' => 'nullable|string',
         ]);
 
-        // Ambil data request yang diperlukan
-        $data = [
-            'item_name' => $request->item_name,
-            'amount' => $request->amount,
-            'category_id' => $request->category_id,
-            'ketersediaan_id' => $request->ketersediaan_id,
-            'kelayakan_id' => $request->kelayakan_id,
-            'deskripsi' => $request->deskripsi,
-            'user_id' => Auth::id(), // User yang mengedit data
-        ];
+        // Tambahkan ID user yang melakukan update
+        $validated['user_id'] = Auth::id();
 
-        // Update data inventaris
-        $inventaris->update($data);
+        // Lakukan update data
+        $inventaris->update($validated);
 
         // Redirect kembali ke halaman inventaris dengan pesan sukses
         return redirect()->route('inventaris.index')->with('success', 'Data inventaris berhasil diperbarui.');

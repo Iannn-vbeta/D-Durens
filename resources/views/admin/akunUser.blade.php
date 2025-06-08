@@ -38,12 +38,11 @@
                                 <button
                                     onclick="openEditModal({{ $user->id }}, '{{ $user->username }}', '{{ $user->email }}')"
                                     class="text-yellow-600 hover:underline">Edit</button>
-                                <form action="{{ route('akunUser.destroy', $user->id) }}" method="POST"
-                                    onsubmit="return confirm('Yakin hapus user ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:underline">Hapus</button>
-                                </form>
+                            <form id="deleteForm-{{ $user->id }}" action="{{ route('akunUser.destroy', $user->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" onclick="showDeleteConfirmation({{ $user->id }})" class="text-red-600 hover:underline">Hapus</button>
+                            </form>
                             </td>
                         </tr>
                     @endforeach
@@ -97,6 +96,18 @@
         </div>
     </div>
 
+    {{-- Modal Konfirmasi Hapus --}}
+    <div id="deleteConfirmationModal" class="fixed inset-0 bg-black bg-opacity-30 items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-sm p-6 text-center">
+            <h3 class="text-lg font-semibold mb-4">Yakin ingin menghapus user ini?</h3>
+            <div class="flex justify-center gap-4">
+                <button onclick="cancelDelete()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Batal</button>
+                <button onclick="confirmDelete()" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Yakin</button>
+            </div>
+        </div>
+    </div>
+
+
     {{-- Modal Scripts --}}
     <script>
         function openModal(id) {
@@ -130,5 +141,25 @@
             }
             return true;
         }
+
+        let deleteFormId = null;
+
+        function showDeleteConfirmation(userId) {
+            deleteFormId = `deleteForm-${userId}`;
+            openModal('deleteConfirmationModal');
+        }
+
+        function confirmDelete() {
+            if (deleteFormId) {
+                document.getElementById(deleteFormId).submit();
+                deleteFormId = null;
+            }
+        }
+
+        function cancelDelete() {
+            closeModal('deleteConfirmationModal');
+            deleteFormId = null;
+        }
+
     </script>
 @endsection
