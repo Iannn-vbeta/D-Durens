@@ -55,13 +55,6 @@
                 {{ session('perawatan') ?? 'Deskripsi Perawatan' }}
             </p>
         </div>
-
-        <!-- Tombol Selesai -->
-        <div class="mt-4 w-full flex justify-end">
-            <button type="button" class="bg-green-700 text-white px-4 py-1 rounded hover:bg-green-800">
-                Selesai
-            </button>
-        </div>
     </form>
 </div>
 

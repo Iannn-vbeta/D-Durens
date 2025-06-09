@@ -69,7 +69,6 @@
             @csrf
             @method('PUT')
             <input type="hidden" name="transaction_id" id="edit_transaction_id">
-            <pre>{{ var_dump($p->status_pemesanan_id) }}</pre>
             <div class="mb-3">
                 <label class="block text-sm text-gray-700 font-medium">Total Tiket</label>
                 <input type="number" id="edit_total_ticket" disabled class="mt-1 w-full p-2 border rounded bg-gray-100">

@@ -32,24 +32,33 @@ class ArtikelWisataController extends Controller
         return redirect()->route('admin.artikel')->with('success', 'Artikel ditambahkan');
     }
 
-    public function update(Request $request, $id)
-    {
-        $artikel = ArtikelWisata::findOrFail($id);
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'image' => 'nullable|image|max:2048',
+    ]);
 
-        $validated = $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
-        ]);
+    $artikel = ArtikelWisata::findOrFail($id);
+    $artikel->title = $request->title;
+    $artikel->description = $request->description;
 
-        if ($request->file('image')) {
-            $validated['image'] = $request->file('image')->store('artikel', 'public');
+    if ($request->hasFile('image')) {
+        // Hapus file lama jika ada
+        if ($artikel->image && Storage::exists('storage/' . $artikel->image)) {
+            Storage::delete('storage/' . $artikel->image);
         }
-
-        $artikel->update($validated);
-
-        return redirect()->route('admin.artikel')->with('success', 'Artikel diperbarui');
+        $path = $request->file('image')->store('artikel', 'public');
+        $artikel->image = $path;
     }
+
+    $artikel->save();
+
+    return redirect()->route('admin.artikel')->with('success', 'Artikel berhasil diperbarui.');
+}
+
+
 
     public function destroy($id)
     {
@@ -60,7 +69,7 @@ class ArtikelWisataController extends Controller
     public function showArtikel($id)
     {
         $artikel = ArtikelWisata::findOrFail($id);
-        return view('artikel', compact('artikel'));
+        return view('guest.welcome', compact('artikel'));
     }
 
 }

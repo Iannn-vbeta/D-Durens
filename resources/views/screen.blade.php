@@ -58,9 +58,9 @@
 
         <!-- Tombol Selesai -->
         <div class="mt-4 w-full flex justify-end">
-            <button type="button" class="bg-green-700 text-white px-4 py-1 rounded hover:bg-green-800">
+            <a href="{{ route('dashboard') }}" class="bg-green-700 text-white px-4 py-1 rounded hover:bg-green-800 inline-block text-center">
                 Selesai
-            </button>
+            </a>
         </div>
     </form>
 </div>

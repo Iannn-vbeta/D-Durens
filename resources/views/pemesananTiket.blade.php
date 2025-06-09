@@ -10,6 +10,12 @@
         </div>
     @endif
 
+    @if (session('error'))
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <!-- Grid Ticket Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12 overflow-x-auto sm:overflow-visible max-h-[700px]">
         @foreach ($tickets as $index => $ticket)
@@ -53,8 +59,10 @@
                 <input type="hidden" name="status_pemesanan_id" value="3">
 
                 <label for="total_ticket" class="block text-sm font-medium text-gray-700">Jumlah Tiket</label>
-                <input type="number" name="total_ticket" id="total_ticket" min="1" value="1"
+                <input type="number" name="total_ticket" id="total_ticket" min="1"
+                    value="{{ old('total_ticket', 1) }}"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2 mb-4" required>
+
 
                 <div class="flex justify-end">
                     <button type="button" id="modal-close" class="mr-2 bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Batal</button>
@@ -112,28 +120,28 @@
             }
         });
 
-        // Tambahkan validasi jumlah tiket saat user mengubah input
-        totalTicketInput.addEventListener('input', function () {
-            const kuota = parseInt(modalTicketKuotaInput.value);
-            const jumlah = parseInt(totalTicketInput.value);
-            if (jumlah > kuota) {
-                alert('Jumlah tiket yang diminta melebihi kuota tersedia (' + kuota + ').');
-                totalTicketInput.value = kuota; // atur nilai ke maksimum kuota
-            } else if (jumlah < 1) {
-                alert('Jumlah tiket minimal 1.');
-                totalTicketInput.value = 1; // minimal 1 tiket
-            }
-        });
+        // // Tambahkan validasi jumlah tiket saat user mengubah input
+        // totalTicketInput.addEventListener('input', function () {
+        //     const kuota = parseInt(modalTicketKuotaInput.value);
+        //     const jumlah = parseInt(totalTicketInput.value);
+        //     if (jumlah > kuota) {
+        //         alert('Jumlah tiket yang diminta melebihi kuota tersedia (' + kuota + ').');
+        //         totalTicketInput.value = kuota; // atur nilai ke maksimum kuota
+        //     } else if (jumlah < 1) {
+        //         alert('Jumlah tiket minimal 1.');
+        //         totalTicketInput.value = 1; // minimal 1 tiket
+        //     }
+        // });
 
-        // Validasi jumlah tiket sebelum submit
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const kuota = parseInt(modalTicketKuotaInput.value);
-            const jumlah = parseInt(totalTicketInput.value);
-            if (jumlah > kuota) {
-                e.preventDefault();
-                alert('Jumlah tiket yang diminta melebihi kuota tersedia (' + kuota + ').');
-            }
-        });
+        // // Validasi jumlah tiket sebelum submit
+        // document.querySelector('form').addEventListener('submit', function(e) {
+        //     const kuota = parseInt(modalTicketKuotaInput.value);
+        //     const jumlah = parseInt(totalTicketInput.value);
+        //     if (jumlah > kuota) {
+        //         e.preventDefault();
+        //         alert('Jumlah tiket yang diminta melebihi kuota tersedia (' + kuota + ').');
+        //     }
+        // });
     });
     </script>
 

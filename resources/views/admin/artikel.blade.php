@@ -39,11 +39,11 @@
                                 class="bg-yellow-500 text-white px-2 py-1 rounded">Edit</button>
 
                             <!-- Hapus -->
-                            <form method="POST" action="{{ route('artikel.destroy', $artikel->article_id) }}"
-                                class="inline-block" onsubmit="return confirm('Hapus artikel ini?')">
-                                @csrf @method('DELETE')
-                                <button class="bg-red-500 text-white px-2 py-1 rounded">Hapus</button>
-                            </form>
+                        <button
+                            onclick="confirmDelete({{ $artikel->article_id }})"
+                            class="bg-red-500 text-white px-2 py-1 rounded">Hapus</button>
+
+
                         </td>
                     </tr>
                 @endforeach
@@ -74,13 +74,33 @@
                 @csrf
                 @method('PUT')
                 <input type="text" name="title" id="editTitle" class="w-full border p-2 mb-2" required>
-                <textarea name="deskripsi" id="editDeskripsi" rows="4" class="w-full border p-2 mb-2" required></textarea>
+                <textarea name="description" id="editDeskripsi" rows="4" class="w-full border p-2 mb-2" required></textarea>
                 <input type="file" name="image" class="w-full border p-2 mb-4">
                 <button class="bg-yellow-500 text-white px-4 py-2 rounded">Update</button>
                 <button type="button" onclick="closeModal('editModal')" class="ml-2 text-gray-700">Batal</button>
             </form>
         </div>
     </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div id="confirmDeleteModal" class="fixed inset-0 bg-black bg-opacity-40 hidden justify-center items-center z-50">
+        <div class="bg-white rounded-lg shadow-lg max-w-sm w-full p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Konfirmasi Hapus</h3>
+            <p class="text-sm text-gray-600 mb-6">Yakin ingin menghapus data ini?</p>
+            <div class="flex justify-end gap-3">
+                <button id="cancelDeleteBtn" class="px-4 py-2 rounded text-gray-600 hover:text-gray-800">Batal</button>
+                <form method="POST" id="deleteForm">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" id="confirmDeleteBtn" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                        Hapus
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 
     <script>
         function openModal(id) {
@@ -91,11 +111,31 @@
             document.getElementById(id).classList.add('hidden');
         }
 
-        function openEditModal(id, title, deskripsi) {
+        function openEditModal(id, title, description)
+        {
             document.getElementById('editTitle').value = title;
-            document.getElementById('editDeskripsi').value = deskripsi;
-            document.getElementById('editForm').action = '/admin/artikel/' + id;
+            document.getElementById('editDeskripsi').value = description;
+
+            // Gunakan route helper Laravel untuk URL update dengan mengganti :id
+            const url = "{{ route('artikel.update', ':id') }}".replace(':id', id);
+            document.getElementById('editForm').action = url;
+
             openModal('editModal');
         }
+
+
+        function confirmDelete(id)
+        {
+            const url = "{{ route('artikel.destroy', ':id') }}".replace(':id', id);
+            document.getElementById('deleteForm').action = url;
+            document.getElementById('confirmDeleteModal').classList.remove('hidden');
+            document.getElementById('confirmDeleteModal').classList.add('flex');
+        }
+
+        document.getElementById('cancelDeleteBtn').addEventListener('click', function () {
+            document.getElementById('confirmDeleteModal').classList.remove('flex');
+            document.getElementById('confirmDeleteModal').classList.add('hidden');
+        });
+
     </script>
 @endsection

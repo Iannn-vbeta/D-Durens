@@ -79,11 +79,11 @@
     <!-- Menu Mobile -->
     <div class="md:hidden hidden" id="mobile-menu">
         <div class="px-2 pt-2 pb-3 space-y-1">
-            <a href="#"
+            <a href="{{ route('dashboard') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Home</a>
-            <a href="#"
+            <a href="{{ route('dashboard') }}#aboutUs"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">About Us</a>
-            <a href="#"
+            <a href="{{ route('dashboard') }}#artikel"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Artikel</a>
             <a href="{{ route('pemesanan.create') }}"
                 class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">Pricing</a>
@@ -117,7 +117,7 @@
             <div id="profile-dropdown" class="hidden ml-4 space-y-1">
                 <a href="{{ route('profile.edit') }}"
                     class="block px-3 py-2 text-base text-gray-600 hover:bg-gray-100">Profil</a>
-                <a href="#" class="block px-3 py-2 text-base text-gray-600 hover:bg-gray-100">Riwayat Pemesanan
+                <a href="{{ route('pemesanan.riwayatPembelian', ['username' => Auth::user()->username ]) }}" class="block px-3 py-2 text-base text-gray-600 hover:bg-gray-100">Riwayat Pemesanan
                     Tiket</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                     @csrf

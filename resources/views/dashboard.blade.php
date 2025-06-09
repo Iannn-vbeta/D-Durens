@@ -10,7 +10,7 @@
                     <!-- Carousel wrapper -->
                     <div class="relative h-64 overflow-hidden rounded-lg">
                         @php
-                            $carouselImages = ['img/Atas.png', 'img/suasana1.png', 'img/suasana2.png'];
+                            $carouselImages = ['img/Atas.png', 'img/suasana1.png'];
                         @endphp
                         @foreach ($carouselImages as $index => $img)
                             <div class="absolute inset-0 transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }} carousel-item"
@@ -249,7 +249,7 @@
             <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
                 <img src="{{ asset('img/iconTiketWisata.png') }}" alt="Tiket Menginap" class="w-24 h-24 mb-4">
                 <h3 class="text-lg font-semibold">Tiket Menginap</h3>
-                <p class="text-gray-600 mt-2 text-sm">Rp. 30.000</p>
+                <p class="text-gray-600 mt-2 text-sm">Rp. 40.000</p>
                 <a href="{{ route('pemesanan.create') }}" class="mt-4 w-full">
                     <button class="w-full py-2 rounded-full bg-black text-white hover:bg-green-600 transition">
                         Pesan Sekarang
@@ -260,7 +260,7 @@
             <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
                 <img src="{{ asset('img/iconTiketWisata.png') }}" alt="Tiket Masuk" class="w-24 h-24 mb-4">
                 <h3 class="text-lg font-semibold">Tiket Masuk</h3>
-                <p class="text-gray-600 mt-2 text-sm">Rp. 5.000</p>
+                <p class="text-gray-600 mt-2 text-sm">Rp. 15.000</p>
                 <a href="{{ route('pemesanan.create') }}" class="mt-4 w-full">
                     <button class="w-full py-2 rounded-full bg-black text-white hover:bg-green-600 transition">
                         Pesan Sekarang
