@@ -38,12 +38,9 @@
                                 <button
                                     onclick="openEditModal({{ $user->id }}, '{{ $user->username }}', '{{ $user->email }}')"
                                     class="text-yellow-600 hover:underline">Edit</button>
-                                <form action="{{ route('akunAdmin.destroy', $user->id) }}" method="POST"
-                                    onsubmit="return confirm('Yakin hapus user ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:underline">Hapus</button>
-                                </form>
+                                <button type="button"
+                                    onclick="showDeleteConfirmation('{{ route('akunAdmin.destroy', $user->id) }}')"
+                                    class="text-red-600 hover:underline">Hapus</button>
                             </td>
                         </tr>
                     @endforeach
@@ -97,8 +94,33 @@
         </div>
     </div>
 
+    <!-- Modal Konfirmasi Hapus -->
+    <div id="deleteConfirmModal" class="fixed inset-0 bg-black bg-opacity-30 items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+            <h3 class="text-lg font-bold mb-4">Konfirmasi Hapus</h3>
+            <p class="mb-6">Apakah Anda yakin ingin menghapus akun ini?</p>
+            <form id="deleteForm" method="POST">
+                @csrf
+                @method('DELETE')
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('deleteConfirmModal')" class="text-gray-500">Batal</button>
+                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Hapus</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     {{-- Modal Scripts --}}
     <script>
+
+        function showDeleteConfirmation(actionUrl)
+        {
+            const form = document.getElementById('deleteForm');
+            form.action = actionUrl;
+            openModal('deleteConfirmModal');
+        }
+
         function openModal(id) {
             const modal = document.getElementById(id);
             modal.classList.remove('hidden');

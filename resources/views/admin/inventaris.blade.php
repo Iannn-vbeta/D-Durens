@@ -17,17 +17,17 @@
         </div>
     @endif
 
-    <div class="overflow-x-auto bg-white rounded shadow">
+    <div class="overflow-x-auto bg-white rounded shadow max-h-[500px] overflow-y-auto">
         <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-100 text-left">
+            <thead class="bg-gray-100 text-left sticky top-0 z-10">
                 <tr>
-                    <th class="px-4 py-2">Item</th>
-                    <th class="px-4 py-2">Jumlah</th>
-                    <th class="px-4 py-2">Kategori</th>
-                    <th class="px-4 py-2">Ketersediaan</th>
-                    <th class="px-4 py-2">Kelayakan</th>
-                    <th class="px-4 py-2">Deskripsi</th>
-                    <th class="px-4 py-2">Aksi</th>
+                    <th class="px-4 py-2 bg-gray-100">Item</th>
+                    <th class="px-4 py-2 bg-gray-100">Jumlah</th>
+                    <th class="px-4 py-2 bg-gray-100">Kategori</th>
+                    <th class="px-4 py-2 bg-gray-100">Ketersediaan</th>
+                    <th class="px-4 py-2 bg-gray-100">Kelayakan</th>
+                    <th class="px-4 py-2 bg-gray-100">Deskripsi</th>
+                    <th class="px-4 py-2 bg-gray-100">Aksi</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
@@ -59,6 +59,7 @@
             </tbody>
         </table>
     </div>
+
 </div>
 
 {{-- Modal Tambah Inventaris --}}
