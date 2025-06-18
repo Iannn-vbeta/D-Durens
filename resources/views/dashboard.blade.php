@@ -199,21 +199,21 @@
             <!-- Jumlah Pengunjung -->
             <div class="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center">
                 <img src="{{ asset('img/iconorang.png') }}" alt="Jumlah Pengunjung" class="w-16 h-16 mb-2">
-                <div class="text-lg font-bold text-green-600">1,234</div>
+                <div class="text-lg font-bold text-green-600">10.000++</div>
                 <div class="text-sm font-semibold text-gray-700">Jumlah Pengunjung</div>
             </div>
 
             <!-- Jumlah Review Positif -->
             <div class="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center">
                 <img src="{{ asset('img/iconbintang.png') }}" alt="Jumlah Review Positif" class="w-16 h-16 mb-2">
-                <div class="text-lg font-bold text-green-600">4,5</div>
+                <div class="text-lg font-bold text-green-600">4.5</div>
                 <div class="text-sm font-semibold text-gray-700">Jumlah Review Positif</div>
             </div>
 
             <!-- Jumlah Tiket Terjual -->
             <div class="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center">
                 <img src="{{ asset('img/icontiket.png') }}" alt="Jumlah Tiket Terjual" class="w-16 h-16 mb-2">
-                <div class="text-lg font-bold text-green-600">1,200++</div>
+                <div class="text-lg font-bold text-green-600">1.200++</div>
                 <div class="text-sm font-semibold text-gray-700">Jumlah Tiket Terjual</div>
             </div>
         </div>
@@ -225,18 +225,31 @@
             <h3>Seputar <span class="text-green-600">Kampung Wisata Durian</span></h3>
         </div>
         <div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                @foreach ($artikels as $artikel)
-                    <div class="bg-white shadow p-4 rounded">
-                        <img src="{{ asset('storage/' . $artikel->image) }}" alt=""
-                            class="w-full h-40 object-cover">
-                        <h2 class="text-xl font-bold mt-2">{{ $artikel->title }}</h2>
-                        <p class="text-gray-600 mt-1">{{ Str::limit($artikel->description, 10) }}</p>
-                        <a href="{{ route('artikel.showArtikel', $artikel->article_id) }}"
-                            class="text-blue-500 mt-2 inline-block">Baca
-                            Selengkapnya</a>
-                    </div>
-                @endforeach
+            <div class="flex flex-col items-center space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-6">
+                    @foreach ($artikels->take(3) as $artikel)
+                        <div class="bg-white shadow p-4 rounded flex flex-col items-center">
+                            <img src="{{ asset('storage/' . $artikel->image) }}" alt=""
+                                class="w-full h-40 object-cover">
+                            <h2 class="text-xl font-bold mt-2 text-center">{{ $artikel->title }}</h2>
+                            <p class="text-gray-600 mt-1 text-center">{{ Str::limit($artikel->description, 10) }}</p>
+                            <a href="{{ route('artikel.showArtikel', $artikel->article_id) }}"
+                                class="text-blue-500 mt-2 inline-block">Baca Selengkapnya</a>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                    @foreach ($artikels->skip(3)->take(2) as $artikel)
+                        <div class="bg-white shadow p-4 rounded flex flex-col items-center">
+                            <img src="{{ asset('storage/' . $artikel->image) }}" alt=""
+                                class="w-full h-40 object-cover">
+                            <h2 class="text-xl font-bold mt-2 text-center">{{ $artikel->title }}</h2>
+                            <p class="text-gray-600 mt-1 text-center">{{ Str::limit($artikel->description, 10) }}</p>
+                            <a href="{{ route('artikel.showArtikel', $artikel->article_id) }}"
+                                class="text-blue-500 mt-2 inline-block">Baca Selengkapnya</a>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>

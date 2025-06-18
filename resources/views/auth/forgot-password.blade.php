@@ -4,12 +4,6 @@
             {{ __('Lupa password? Tidak masalah. Masukkan email kamu dan kami akan kirimkan link untuk reset password.') }}
         </div>
 
-        @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600 text-center">
-                {{ session('status') }}
-            </div>
-        @endif
-
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
         <form method="POST" action="{{ route('password.email') }}">

@@ -28,6 +28,15 @@ Route::fallback(function () {
     return redirect('/');
 });
 
+Route::get('/', function () {
+    if (Auth::check()) {
+        return Auth::user()->role_id == 1
+            ? redirect('/admin/dashboard')
+            : redirect('/dashboard');
+    }
+    return app(UserDashboardController::class)->guestIndex();
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -38,8 +47,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role'])->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+});
+
+Route::middleware(['auth', 'verified', 'role'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 });
 
